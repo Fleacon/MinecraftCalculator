@@ -1,4 +1,3 @@
-import Verzauberungen.Verbrennung;
 import Verzauberungen.Verzauberung;
 
 public class Rüstung {
@@ -11,7 +10,7 @@ public class Rüstung {
         this.rüstungsPunkte = rüstungsPunkte;
     }
     public void verzaubern(Verzauberung verzauberung){
-        
+
     }
     public static int berechneSchadensreduzierung(){
 

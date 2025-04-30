@@ -7,6 +7,7 @@ CREATE TABLE Mob (
     mobID INTEGER PRIMARY KEY,
     bezeichnung TEXT NOT NULL,
     hp INTEGER NOT NULL,
+    basisRüstungsPunkte INTEGER NOT NULL,
     textur TEXT,
     mobTypID INTEGER,
     FOREIGN KEY (mobTypID) REFERENCES MobTyp(mobTypID)
@@ -39,6 +40,7 @@ CREATE TABLE Material (
 
 CREATE TABLE Waffe (
     waffeID INTEGER PRIMARY KEY,
+    bezeichnung TEXT NOT NULL,
     schaden INTEGER NOT NULL,
     textur TEXT,
     materialID INTEGER,
@@ -49,7 +51,9 @@ CREATE TABLE Waffe (
 
 CREATE TABLE Rüstungsteil (
     rüstungsID INTEGER PRIMARY KEY,
+    bezeichnung TEXT NOT NULL,
     rüstungsPunkte INTEGER NOT NULL,
+    härte INTEGER NOT NULL,
     textur TEXT,
     materialID INTEGER,
     rüstungstypID INTEGER,

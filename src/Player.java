@@ -1,8 +1,13 @@
 import Effekte.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Player {
     private int basisSchaden;
     private Waffe waffe;
+
+    private ArrayList<Effekt> effekte = new ArrayList<Effekt>();
 
     public Player() {
         basisSchaden = 1;
@@ -28,12 +33,12 @@ public class Player {
         return waffe;
     }
 
-    public void setBasisSchaden(int basisSchaden) {
-        this.basisSchaden = basisSchaden;
+    public ArrayList<Effekt> getEffekte() {
+        return effekte;
     }
 
-    public void setWaffe(Waffe waffe) {
-        this.waffe = waffe;
+    public void setEffekte(ArrayList<Effekt> effekte) {
+        this.effekte = effekte;
     }
 
     public String toString() {

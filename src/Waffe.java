@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Waffe {
     private String bezeichnung;
+    private String waffentyp;
     private String material;
     private int schaden;
     private ArrayList<Verzauberung> verzauberungen = new ArrayList<Verzauberung>();
@@ -22,16 +23,8 @@ public class Waffe {
         return 0;
     }
 
-    public void setBezeichnung(String bezeichnung) {
-        this.bezeichnung = bezeichnung;
-    }
-
-    public void setMaterial(String material) {
-        this.material = material;
-    }
-
-    public void setSchaden(int schaden) {
-        this.schaden = schaden;
+    public void setVerzauberungen(ArrayList<Verzauberung> verzauberungen) {
+        this.verzauberungen = verzauberungen;
     }
 
     public String toString() {

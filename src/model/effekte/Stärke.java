@@ -1,4 +1,4 @@
-package Verzauberungen;
+package model.effekte;
 
 public class Stärke {
 }

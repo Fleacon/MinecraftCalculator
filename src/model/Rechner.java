@@ -1,3 +1,5 @@
+package model;
+
 public class Rechner {
     private static Rechner instance;
     private Player player;

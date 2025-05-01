@@ -1,4 +1,6 @@
-import Verzauberungen.*;
+package model;
+
+import model.verzauberungen.*;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,7 @@
-import Effekte.*;
+package model;
 
-import java.lang.reflect.Array;
+import model.effekte.*;
+
 import java.util.ArrayList;
 
 public class Player {

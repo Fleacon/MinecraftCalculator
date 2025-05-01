@@ -1,4 +1,4 @@
-package Effekte;
+package model.effekte;
 
 public class Schwäche {
 }

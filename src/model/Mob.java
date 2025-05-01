@@ -1,4 +1,6 @@
-import Effekte.Effekt;
+package model;
+
+import model.effekte.Effekt;
 
 import java.util.ArrayList;
 

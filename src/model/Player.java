@@ -15,15 +15,16 @@ public class Player {
     }
 
     public void waffeWechseln(Waffe waffe) {
-
+        this.waffe = waffe;
     }
 
     public void effektHinzufügen(Effekt effekt){
-
+        effekte.add(effekt);
     }
 
     public int berechneAngriffskraft(){
-        return 0;
+        int angriffskraft = waffe.berechneSchaden();
+        return angriffskraft;
     }
 
     public int getBasisSchaden() {

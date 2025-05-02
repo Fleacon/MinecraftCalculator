@@ -19,9 +19,9 @@ public class Rüstung {
         this.rüstungsPunkte = rüstungsPunkte;
     }
     public void verzaubern(Verzauberung verzauberung){
-
+        verzauberungen.add(verzauberung);
     }
-    public static int berechneSchadensreduzierung(){
+    public static double berechneSchadensreduzierung(){
         return 0;
     }
 
@@ -37,7 +37,7 @@ public class Rüstung {
         return material;
     }
 
-    public double getRüstungsPunkte() {
+    public int getRüstungsPunkte() {
         return rüstungsPunkte;
     }
 

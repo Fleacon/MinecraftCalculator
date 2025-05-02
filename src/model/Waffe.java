@@ -18,11 +18,12 @@ public class Waffe {
     }
 
     public void verzaubern(Verzauberung verzauberung) {
-
+        verzauberungen.add(verzauberung);
     }
 
     public int berechneSchaden() {
-        return 0;
+
+        return schaden;
     }
 
     public void setVerzauberungen(ArrayList<Verzauberung> verzauberungen) {

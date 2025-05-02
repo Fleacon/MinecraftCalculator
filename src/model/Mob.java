@@ -3,6 +3,7 @@ package model;
 import model.effekte.Effekt;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Mob {
     private String bezeichnung;
@@ -21,15 +22,56 @@ public class Mob {
     }
 
     public void effektHinzufügen(Effekt effekt){
-
+        effekte.add(effekt);
     }
 
-    public void rüstungAnlegen(Rüstung rüstung){
+    public boolean rüstungAnlegen(Rüstung inRüstung){
+        if (Arrays.asList(rüstungen).contains(inRüstung)) return false;
 
+        for (Rüstung rüstung: rüstungen) {
+            // Wenn Rüstungsteil gleicher Art schon angelegt ist
+            switch (inRüstung.getKörperteil()) {
+                case "Helm":
+                    if (!inRüstung.equals(rüstung))
+                        rüstungen[0] = inRüstung;
+                    break;
+                case "Brustplatte":
+                    if (!inRüstung.equals(rüstung))
+                        rüstungen[1] = inRüstung;
+                    break;
+                case "Hose":
+                    if (!inRüstung.equals(rüstung))
+                        rüstungen[2] = inRüstung;
+                    break;
+                case "Schuhe":
+                    if (!inRüstung.equals(rüstung))
+                        rüstungen[3] = inRüstung;
+                    break;
+                default:
+                    return false;
+            }
+        }
+        return true;
     }
 
-    public int berechneSchadensnigierung(){
-        return 0;
+    // index: 0 = Helm, 1 = Brustplatte, 2 = Hose, 3 = Schuhe
+    public boolean rüstungAblegen(int index) {
+        if(index > rüstungen.length - 1 || index < 0)
+            return false;
+        rüstungen[index] = null;
+        return true;
+    }
+
+    public RedWerte berechneSchadensreduktion(){
+        int gesamtRüstung = 0;
+        int gesamtHärte = 0;
+        double reduktion = 0;
+
+        for (Rüstung rüstungsteil: rüstungen) {
+            gesamtRüstung += rüstungsteil.getRüstungsPunkte();
+            gesamtHärte += rüstungsteil.getHärte();
+        }
+        return new RedWerte(gesamtRüstung, gesamtHärte);
     }
     
     public String getBezeichnung() {

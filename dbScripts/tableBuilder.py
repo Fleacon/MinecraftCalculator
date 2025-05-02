@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-DB_FILE = "../minecraftDB.db"
+DB_FILE = "../minecraftDB.sqlite"
 SQL_SETUP_FILE = "setup.sql"
 
 def execute_sql_setup_script(db_file, sql_file):

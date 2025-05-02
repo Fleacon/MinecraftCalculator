@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-DB_FILE = "../minecraftDB.db"
+DB_FILE = "../minecraftDB.sqlite"
 
 def connect_to_db(db_file):
     """Connect to SQLite database."""
@@ -28,14 +28,14 @@ def insert_mob_types(conn):
 
 # model.Mob(mobID, bezeichnung, hp, textur, mobTyp#)
 def insert_mobs(conn):
-    """Insert data into model.Mob table. Textures are initially NULL."""
+    """Insert data into Mob table. Textures are initially NULL."""
     mobs = [
         ("Zombie", 20, 2, None, 1), # 1
         ("Skelett", 20, 0, None, 1) # 2
     ]
     
     cursor = conn.cursor()
-    cursor.executemany("INSERT INTO model.Mob (bezeichnung, hp, basisRüstungsPunkte, textur, mobTypID) VALUES (?, ?, ?, ?, ?)", mobs)
+    cursor.executemany("INSERT INTO Mob (bezeichnung, hp, basisRüstungsPunkte, textur, mobTypID) VALUES (?, ?, ?, ?, ?)", mobs)
     conn.commit()
     print(f"Inserted {cursor.rowcount} mobs")
 
@@ -71,9 +71,9 @@ def insert_weapon_types(conn):
     conn.commit()
     print(f"Inserted {cursor.rowcount} weapon types")
 
-# model.Waffe(waffeID, bezeichnung, schaden, textur, materialID#, waffentypID#)
+# Waffe(waffeID, bezeichnung, schaden, textur, materialID#, waffentypID#)
 def insert_weapons(conn):
-    """Insert data into model.Waffe table."""
+    """Insert data into Waffe table."""
     weapons = [
         # Schwerter
         ("Holz Schwert", 4, None, 1, 1),  # 1
@@ -88,11 +88,11 @@ def insert_weapons(conn):
         ("Eisen Axt", 9, None, 3, 2),  # 9
         ("Gold Axt", 7, None, 4, 2),  # 10
         ("Diamant Axt", 9, None, 5, 2),  # 11
-        (" Netherite Axt", 10, None, 6, 2)# 12
+        ("Netherite Axt", 10, None, 6, 2)# 12
     ]
     
     cursor = conn.cursor()
-    cursor.executemany("INSERT INTO model.Waffe (bezeichnung, schaden, textur, materialID, waffentypID) VALUES (?, ?, ?, ?, ?)", weapons)
+    cursor.executemany("INSERT INTO Waffe (bezeichnung, schaden, textur, materialID, waffentypID) VALUES (?, ?, ?, ?, ?)", weapons)
     conn.commit()
     print(f"Inserted {cursor.rowcount} weapons")
 

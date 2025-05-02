@@ -124,26 +124,26 @@ def insert_armor(conn):
         ("Diamant Helm", 3, 2, None, 5, 1), # 6
         ("Netherite Helm", 3, 3, None, 6, 1), # 7
         # Brustplatten
-        ("Leder Brustplatte", 3, 0, None, 7, 1), # 8
-        ("Ketten Brustplatte", 5, 0, None, 8, 1), # 9
-        ("Eisen Brustplatte", 6, 0, None, 3, 1), # 10
-        ("Gold Brustplatte", 5, 0, None, 4, 1), # 11
-        ("Diamant Brustplatte", 8, 2, None, 5, 1), # 12
-        ("Netherite Brustplatte", 8, 3, None, 6, 1), # 13
+        ("Leder Brustplatte", 3, 0, None, 7, 2), # 8
+        ("Ketten Brustplatte", 5, 0, None, 8, 2), # 9
+        ("Eisen Brustplatte", 6, 0, None, 3, 2), # 10
+        ("Gold Brustplatte", 5, 0, None, 4, 2), # 11
+        ("Diamant Brustplatte", 8, 2, None, 5, 2), # 12
+        ("Netherite Brustplatte", 8, 3, None, 6, 2), # 13
         # Hosen
-        ("Leder Hose", 2, 0, None, 7, 1), # 14
-        ("Ketten Hose", 4, 0, None, 8, 1), # 15
-        ("Eisen Hose", 5, 0, None, 3, 1), # 16
-        ("Gold Hose", 3, 0, None, 4, 1), # 17
-        ("Diamant Hose", 6, 2, None, 5, 1), # 18
-        ("Netherite Hose", 6, 3, None, 6, 1), # 19
+        ("Leder Hose", 2, 0, None, 7, 3), # 14
+        ("Ketten Hose", 4, 0, None, 8, 3), # 15
+        ("Eisen Hose", 5, 0, None, 3, 3), # 16
+        ("Gold Hose", 3, 0, None, 4, 3), # 17
+        ("Diamant Hose", 6, 2, None, 5, 3), # 18
+        ("Netherite Hose", 6, 3, None, 6, 3), # 19
         # Schuhe
-        ("Leder Schuhe", 2, 0, None, 7, 1), # 20
-        ("Ketten Schuhe", 4, 0, None, 8, 1), # 21
-        ("Eisen Schuhe", 5, 0, None, 3, 1), # 22
-        ("Gold Schuhe", 3, 0, None, 4, 1), # 23
-        ("Diamant Schuhe", 6, 2, None, 5, 1), # 24
-        ("Netherite Schuhe", 6, 3, None, 6, 1)  # 25
+        ("Leder Schuhe", 2, 0, None, 7, 4), # 20
+        ("Ketten Schuhe", 4, 0, None, 8, 4), # 21
+        ("Eisen Schuhe", 5, 0, None, 3, 4), # 22
+        ("Gold Schuhe", 3, 0, None, 4, 4), # 23
+        ("Diamant Schuhe", 6, 2, None, 5, 4), # 24
+        ("Netherite Schuhe", 6, 3, None, 6, 4)  # 25
     ]
     
     cursor = conn.cursor()

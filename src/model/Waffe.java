@@ -11,8 +11,9 @@ public class Waffe {
     private int schaden;
     private ArrayList<Verzauberung> verzauberungen = new ArrayList<Verzauberung>();
 
-    public Waffe(String bezeichnung, String material, int schaden) {
+    public Waffe(String bezeichnung, String waffentyp, String material, int schaden) {
         this.bezeichnung = bezeichnung;
+        this.waffentyp = waffentyp;
         this.material = material;
         this.schaden = schaden;
     }

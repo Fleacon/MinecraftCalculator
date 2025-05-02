@@ -24,7 +24,6 @@ public class Rüstung {
     public static double berechneSchadensreduzierung(){
         return 0;
     }
-
     public String getBezeichnung() {
         return bezeichnung;
     }

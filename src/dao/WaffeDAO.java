@@ -7,6 +7,7 @@ import model.Waffe;
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class WaffeDAO {
     public Waffe getWaffeByID(int id) throws SQLException {
@@ -19,11 +20,7 @@ public class WaffeDAO {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                String bezeichnung = rs.getString("waffenbezeichnung");
-                String typ = rs.getString("typ");
-                int schaden = rs.getInt("schaden");
-                String material = rs.getString("material");
-                return new Waffe(bezeichnung, typ, material, schaden);
+                return readAndCreate(rs);
             }
         }
         return null;
@@ -39,13 +36,30 @@ public class WaffeDAO {
             stmt.setString(1, bez);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                String bezeichnung = rs.getString("waffenbezeichnung");
-                String typ = rs.getString("typ");
-                int schaden = rs.getInt("schaden");
-                String material = rs.getString("material");
-                return new Waffe(bezeichnung, typ, material, schaden);
+                return readAndCreate(rs);
             }
         }
         return null;
+    }
+
+    public ArrayList<Waffe> getAllWaffen() throws SQLException {
+        String sql = "SELECT *\n" +
+                "FROM Waffe";
+        ArrayList<Waffe> waffen = new ArrayList<>();
+        try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                waffen.add(readAndCreate(rs));
+            }
+            return waffen;
+        }
+    }
+
+    private Waffe readAndCreate(ResultSet rs) throws SQLException {
+        String bezeichnung = rs.getString("waffenbezeichnung");
+        String typ = rs.getString("typ");
+        int schaden = rs.getInt("schaden");
+        String material = rs.getString("material");
+        return new Waffe(bezeichnung, typ, material, schaden);
     }
 }

@@ -14,9 +14,11 @@ public class Rüstung {
     private ArrayList<Verzauberung> verzauberungen= new ArrayList<Verzauberung>();
 
     public Rüstung(String bezeichnung, String körperteil, String material, int rüstungsPunkte, int härte){
+        this.bezeichnung = bezeichnung;
         this.körperteil = körperteil;
         this.material = material;
         this.rüstungsPunkte = rüstungsPunkte;
+        this.härte = härte;
     }
     public void verzaubern(Verzauberung verzauberung){
         verzauberungen.add(verzauberung);

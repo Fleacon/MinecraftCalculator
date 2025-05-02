@@ -2,11 +2,11 @@ package dao;
 
 import DB.DatabaseManager;
 import model.Mob;
-import model.Waffe;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class MobDAO {
     public Mob getMobByID(int id) throws SQLException {

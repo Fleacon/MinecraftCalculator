@@ -1,12 +1,12 @@
 package dao;
 
 import DB.DatabaseManager;
-import model.Mob;
 import model.Rüstung;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class RüstungDAO {
 
@@ -21,6 +21,22 @@ public class RüstungDAO {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return readAndCreate(rs);
+            }
+        }
+        return null;
+    }
+
+    public Rüstung getRüstungByBezeichnung(String bez) throws SQLException {
+        String sql = "SELECT Rüstungsteil.bezeichnung AS bezeichnung, typ, Material.bezeichnung AS material, rüstungspunkte, härte\n" +
+                "FROM Rüstungsteil\n" +
+                "JOIN Material USING(materialID)\n" +
+                "JOIN Rüstungstyp USING(rüstungstypID)\n" +
+                "WHERE bezeichnung = ?";
+        try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {
+            stmt.setString(1, bez);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                readAndCreate(rs);
             }
         }
         return null;

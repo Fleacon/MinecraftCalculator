@@ -42,7 +42,7 @@ public class WaffeDAO {
     }
 
     public ArrayList<Waffe> getAllWaffen() throws SQLException {
-        String sql = "SELECT *\n" +
+        String sql = "SELECT Waffe.bezeichnung AS waffenbezeichnung, schaden, Material.bezeichnung AS material, Waffentyp.typ AS typ\n" +
                 "FROM Waffe";
         ArrayList<Waffe> waffen = new ArrayList<>();
         try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {

@@ -40,14 +40,10 @@ public class MobDAO {
     }
 
     private Mob readAndCreate(ResultSet rs) throws SQLException {
-        if (rs.next()) {
-            String bezeichnung = rs.getString("bezeichnung");
-            int hp = rs.getInt("hp");
-            int brp = rs.getInt("basisRüstungsPunkte");
-            String typ = rs.getString("typ");
-            return new Mob(bezeichnung, hp, brp, typ);
-        }
-        WaffeDAO wp = new WaffeDAO();
-        return null;
+        String bezeichnung = rs.getString("bezeichnung");
+        int hp = rs.getInt("hp");
+        int brp = rs.getInt("basisRüstungsPunkte");
+        String typ = rs.getString("typ");
+        return new Mob(bezeichnung, hp, brp, typ);
     }
 }

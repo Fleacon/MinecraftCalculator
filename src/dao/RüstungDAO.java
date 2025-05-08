@@ -36,7 +36,7 @@ public class RüstungDAO {
             stmt.setString(1, bez);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                readAndCreate(rs);
+                return readAndCreate(rs);
             }
         }
         return null;

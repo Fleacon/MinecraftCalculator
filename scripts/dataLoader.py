@@ -76,19 +76,19 @@ def insert_weapons(conn):
     """Insert data into Waffe table."""
     weapons = [
         # Schwerter
-        ("Holz Schwert", 4, None, 1, 1),  # 1
-        ("Stein Schwert", 5, None, 2, 1),  # 2
-        ("Eisen Schwert", 6, None, 3, 1),  # 3
-        ("Gold Schhwert", 4, None, 4, 1),  # 4 
-        ("Diamant Schwert", 7, None, 5, 1),  # 5
-        ("Netherite Schwert", 8, None, 6, 1),  # 6
+        ("Holz Schwert", 4, r"res\weapons\swords\wooden_sword.png", 1, 1),  # 1
+        ("Stein Schwert", 5, r"res\weapons\swords\stone_sword.png", 2, 1),  # 2
+        ("Eisen Schwert", 6, r"res\weapons\swords\iron_sword.png", 3, 1),  # 3
+        ("Gold Schhwert", 4, r"res\weapons\swords\golden_sword.png", 4, 1),  # 4 
+        ("Diamant Schwert", 7, r"res\weapons\swords\diamond_sword.png", 5, 1),  # 5
+        ("Netherite Schwert", 8, r"res\weapons\swords\netherite_sword.png", 6, 1),  # 6
         # Äxte
-        ("Holz Axt", 7, None, 1, 2),  # 7 
-        ("Stein Axt", 9, None, 2, 2),  # 8
-        ("Eisen Axt", 9, None, 3, 2),  # 9
-        ("Gold Axt", 7, None, 4, 2),  # 10
-        ("Diamant Axt", 9, None, 5, 2),  # 11
-        ("Netherite Axt", 10, None, 6, 2)# 12
+        ("Holz Axt", 7, r"res\weapons\axes\wooden_axe.png", 1, 2),  # 7 
+        ("Stein Axt", 9, r"res\weapons\axes\stone_axe.png", 2, 2),  # 8
+        ("Eisen Axt", 9, r"res\weapons\axes\iron_axe.png", 3, 2),  # 9
+        ("Gold Axt", 7, r"res\weapons\axes\golden_axe.png", 4, 2),  # 10
+        ("Diamant Axt", 9, r"res\weapons\axes\diamond_axe.png", 5, 2),  # 11
+        ("Netherite Axt", 10, r"res\weapons\axes\netherite_axe.png", 6, 2)# 12
     ]
     
     cursor = conn.cursor()
@@ -116,34 +116,34 @@ def insert_armor(conn):
     """Insert data into Rüstungsteil table. Textures are initially NULL."""
     armor = [
         # Helme
-        ("Schildkrötenhelm", 2, 0, None, None, 1), # 1
-        ("Leder Helm", 1, 0, None, 7, 1), # 2
-        ("Ketten Helm", 2, 0, None, 8, 1), # 3
-        ("Eisen Helm", 2, 0, None, 3, 1), # 4
-        ("Gold Helm", 2, 0, None, 4, 1), # 5
-        ("Diamant Helm", 3, 2, None, 5, 1), # 6
-        ("Netherite Helm", 3, 3, None, 6, 1), # 7
+        ("Schildkrötenhelm", 2, 0, r"res\armor\helmets\turtle_helmet.png", None, 1), # 1
+        ("Leder Helm", 1, 0, r"res\armor\helmets\leather_helmet.png", 7, 1), # 2
+        ("Ketten Helm", 2, 0, r"res\armor\helmets\chainmail_helmet.png", 8, 1), # 3
+        ("Eisen Helm", 2, 0, r"res\armor\helmets\iron_helmet.png", 3, 1), # 4
+        ("Gold Helm", 2, 0, r"res\armor\helmets\golden_helmet.png", 4, 1), # 5
+        ("Diamant Helm", 3, 2, r"res\armor\helmets\diamond_helmet.png", 5, 1), # 6
+        ("Netherite Helm", 3, 3, r"res\armor\helmets\netherite_helmet.png", 6, 1), # 7
         # Brustplatten
-        ("Leder Brustplatte", 3, 0, None, 7, 2), # 8
-        ("Ketten Brustplatte", 5, 0, None, 8, 2), # 9
-        ("Eisen Brustplatte", 6, 0, None, 3, 2), # 10
-        ("Gold Brustplatte", 5, 0, None, 4, 2), # 11
-        ("Diamant Brustplatte", 8, 2, None, 5, 2), # 12
-        ("Netherite Brustplatte", 8, 3, None, 6, 2), # 13
+        ("Leder Brustplatte", 3, 0, r"res\armor\chestplates\leather_chestplate.png", 7, 2), # 8
+        ("Ketten Brustplatte", 5, 0, r"res\armor\chestplates\chainmail_chestplate.png", 8, 2), # 9
+        ("Eisen Brustplatte", 6, 0, r"res\armor\chestplates\iron_chestplate.png", 3, 2), # 10
+        ("Gold Brustplatte", 5, 0, r"res\armor\chestplates\golden_chestplate.png", 4, 2), # 11
+        ("Diamant Brustplatte", 8, 2, r"res\armor\chestplates\diamond_chestplate.png", 5, 2), # 12
+        ("Netherite Brustplatte", 8, 3, r"res\armor\chestplates\netherite_chestplate.png", 6, 2), # 13
         # Hosen
-        ("Leder Hose", 2, 0, None, 7, 3), # 14
-        ("Ketten Hose", 4, 0, None, 8, 3), # 15
-        ("Eisen Hose", 5, 0, None, 3, 3), # 16
-        ("Gold Hose", 3, 0, None, 4, 3), # 17
-        ("Diamant Hose", 6, 2, None, 5, 3), # 18
-        ("Netherite Hose", 6, 3, None, 6, 3), # 19
+        ("Leder Hose", 2, 0, r"res\armor\leggings\leather_leggings.png", 7, 3), # 14
+        ("Ketten Hose", 4, 0, r"res\armor\leggings\chainmail_leggings.png", 8, 3), # 15
+        ("Eisen Hose", 5, 0, r"res\armor\leggings\iron_leggings.png", 3, 3), # 16
+        ("Gold Hose", 3, 0, r"res\armor\leggings\golden_leggings.png", 4, 3), # 17
+        ("Diamant Hose", 6, 2, r"res\armor\leggings\diamond_leggings.png", 5, 3), # 18
+        ("Netherite Hose", 6, 3, r"res\armor\leggings\netherite_leggings.png", 6, 3), # 19
         # Schuhe
-        ("Leder Schuhe", 2, 0, None, 7, 4), # 20
-        ("Ketten Schuhe", 4, 0, None, 8, 4), # 21
-        ("Eisen Schuhe", 5, 0, None, 3, 4), # 22
-        ("Gold Schuhe", 3, 0, None, 4, 4), # 23
-        ("Diamant Schuhe", 6, 2, None, 5, 4), # 24
-        ("Netherite Schuhe", 6, 3, None, 6, 4)  # 25
+        ("Leder Schuhe", 2, 0, r"res\armor\boots\leather_boots.png", 7, 4), # 20
+        ("Ketten Schuhe", 4, 0, r"res\armor\boots\chainmail_boots.png", 8, 4), # 21
+        ("Eisen Schuhe", 5, 0, r"res\armor\boots\iron_boots.png", 3, 4), # 22
+        ("Gold Schuhe", 3, 0, r"res\armor\boots\golden_boots.png", 4, 4), # 23
+        ("Diamant Schuhe", 6, 2, r"res\armor\boots\diamond_boots.png", 5, 4), # 24
+        ("Netherite Schuhe", 6, 3, r"res\armor\boots\netherite_boots.png", 6, 4)  # 25
     ]
     
     cursor = conn.cursor()

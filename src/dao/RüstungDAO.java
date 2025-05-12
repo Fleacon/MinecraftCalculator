@@ -13,7 +13,7 @@ public class RüstungDAO {
     public Rüstung getRüstungByID(int id) throws SQLException {
         String sql = "SELECT Rüstungsteil.bezeichnung AS bezeichnung, typ, Material.bezeichnung AS material, rüstungspunkte, härte\n" +
                 "FROM Rüstungsteil\n" +
-                "JOIN Material USING(materialID)\n" +
+                "LEFT JOIN Material USING(materialID)\n" +
                 "JOIN Rüstungstyp USING(rüstungstypID)\n" +
                 "WHERE rüstungsID = ?";
         try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {
@@ -31,7 +31,7 @@ public class RüstungDAO {
                 "FROM Rüstungsteil\n" +
                 "JOIN Material USING(materialID)\n" +
                 "JOIN Rüstungstyp USING(rüstungstypID)\n" +
-                "WHERE bezeichnung = ?";
+                "WHERE Rüstungsteil.bezeichnung = ?";
         try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {
             stmt.setString(1, bez);
             ResultSet rs = stmt.executeQuery();
@@ -42,15 +42,15 @@ public class RüstungDAO {
         return null;
     }
 
-    private Rüstung readAndCreate(ResultSet rs) throws SQLException{
-        if (rs.next()) {
-            String bezeichnung = rs.getString("bezeichnung");
-            String körperteil = rs.getString("typ");
-            String material = rs.getString("material");
-            int rüstungsPunkte = rs.getInt("rüstungsPunkte");
-            int härte = rs.getInt("härte");
-            return new Rüstung(bezeichnung, körperteil, material, rüstungsPunkte, härte);
         }
-        return null;
+    }
+
+    private Rüstung readAndCreate(ResultSet rs) throws SQLException{
+        String bezeichnung = rs.getString("bezeichnung");
+        String körperteil = rs.getString("typ");
+        String material = rs.getString("material");
+        int rüstungsPunkte = rs.getInt("rüstungsPunkte");
+        int härte = rs.getInt("härte");
+        return new Rüstung(bezeichnung, körperteil, material, rüstungsPunkte, härte);
     }
 }

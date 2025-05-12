@@ -138,12 +138,12 @@ def insert_armor(conn):
         ("Diamant Hose", 6, 2, r"res\armor\leggings\diamond_leggings.png", 5, 3), # 18
         ("Netherite Hose", 6, 3, r"res\armor\leggings\netherite_leggings.png", 6, 3), # 19
         # Schuhe
-        ("Leder Schuhe", 2, 0, r"res\armor\boots\leather_boots.png", 7, 4), # 20
-        ("Ketten Schuhe", 4, 0, r"res\armor\boots\chainmail_boots.png", 8, 4), # 21
-        ("Eisen Schuhe", 5, 0, r"res\armor\boots\iron_boots.png", 3, 4), # 22
-        ("Gold Schuhe", 3, 0, r"res\armor\boots\golden_boots.png", 4, 4), # 23
-        ("Diamant Schuhe", 6, 2, r"res\armor\boots\diamond_boots.png", 5, 4), # 24
-        ("Netherite Schuhe", 6, 3, r"res\armor\boots\netherite_boots.png", 6, 4)  # 25
+        ("Leder Schuhe", 1, 0, r"res\armor\boots\leather_boots.png", 7, 4), # 20
+        ("Ketten Schuhe", 1, 0, r"res\armor\boots\chainmail_boots.png", 8, 4), # 21
+        ("Eisen Schuhe", 2, 0, r"res\armor\boots\iron_boots.png", 3, 4), # 22
+        ("Gold Schuhe", 1, 0, r"res\armor\boots\golden_boots.png", 4, 4), # 23
+        ("Diamant Schuhe", 3, 2, r"res\armor\boots\diamond_boots.png", 5, 4), # 24
+        ("Netherite Schuhe", 3, 3, r"res\armor\boots\netherite_boots.png", 6, 4)  # 25
     ]
     
     cursor = conn.cursor()

@@ -39,6 +39,20 @@ public class MobDAO {
         return null;
     }
 
+    public ArrayList<Mob> getAllMobs() throws SQLException {
+        String sql = "SELECT bezeichnung, hp, basisRüstungsPunkte, typ\n" +
+                "FROM Mob\n" +
+                "JOIN MobTyp USING(mobTypID)";
+        ArrayList<Mob> mobs = new ArrayList<>();
+        try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                mobs.add(readAndCreate(rs));
+            }
+            return mobs;
+        }
+    }
+
     private Mob readAndCreate(ResultSet rs) throws SQLException {
         String bezeichnung = rs.getString("bezeichnung");
         int hp = rs.getInt("hp");

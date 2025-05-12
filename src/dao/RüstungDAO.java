@@ -42,6 +42,18 @@ public class RüstungDAO {
         return null;
     }
 
+    public ArrayList<Rüstung> getAllRüstungen() throws SQLException {
+        String sql = "SELECT Rüstungsteil.bezeichnung AS bezeichnung, typ, Material.bezeichnung AS material, rüstungspunkte, härte\n" +
+                "FROM Rüstungsteil\n" +
+                "JOIN Material USING(materialID)\n" +
+                "JOIN Rüstungstyp USING(rüstungstypID)";
+        ArrayList<Rüstung> rüstungen = new ArrayList<>();
+        try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                rüstungen.add(readAndCreate(rs));
+            }
+            return rüstungen;
         }
     }
 

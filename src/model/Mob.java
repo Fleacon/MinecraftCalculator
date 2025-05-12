@@ -26,31 +26,26 @@ public class Mob {
     }
 
     public boolean rüstungAnlegen(Rüstung inRüstung){
-        if (Arrays.asList(rüstungen).contains(inRüstung)) return false;
+        if (inRüstung == null)
+            return false;
 
-        for (Rüstung rüstung: rüstungen) {
-            // Wenn Rüstungsteil gleicher Art schon angelegt ist
-            switch (inRüstung.getKörperteil()) {
-                case "Helm":
-                    if (!inRüstung.equals(rüstung))
-                        rüstungen[0] = inRüstung;
-                    break;
-                case "Brustplatte":
-                    if (!inRüstung.equals(rüstung))
-                        rüstungen[1] = inRüstung;
-                    break;
-                case "Hose":
-                    if (!inRüstung.equals(rüstung))
-                        rüstungen[2] = inRüstung;
-                    break;
-                case "Schuhe":
-                    if (!inRüstung.equals(rüstung))
-                        rüstungen[3] = inRüstung;
-                    break;
-                default:
-                    return false;
-            }
+        switch (inRüstung.getKörperteil()) {
+            case "Helm":
+                rüstungen[0] = inRüstung;
+                break;
+            case "Brustplatte":
+                rüstungen[1] = inRüstung;
+                break;
+            case "Hose":
+                rüstungen[2] = inRüstung;
+                break;
+            case "Schuhe":
+                rüstungen[3] = inRüstung;
+                break;
+            default:
+                return false;
         }
+
         return true;
     }
 
@@ -63,13 +58,15 @@ public class Mob {
     }
 
     public RedWerte berechneSchadensreduktion(){
-        int gesamtRüstung = 0;
+        int gesamtRüstung = basisRüstungsPunkte;
         int gesamtHärte = 0;
         double reduktion = 0;
 
         for (Rüstung rüstungsteil: rüstungen) {
-            gesamtRüstung += rüstungsteil.getRüstungsPunkte();
-            gesamtHärte += rüstungsteil.getHärte();
+            if (rüstungsteil != null) {
+                gesamtRüstung += rüstungsteil.getRüstungsPunkte();
+                gesamtHärte += rüstungsteil.getHärte();
+            }
         }
         return new RedWerte(gesamtRüstung, gesamtHärte);
     }

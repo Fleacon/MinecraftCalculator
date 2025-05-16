@@ -29,7 +29,7 @@ public class RüstungDAO {
     public Rüstung getRüstungByBezeichnung(String bez) throws SQLException {
         String sql = "SELECT Rüstungsteil.bezeichnung AS bezeichnung, typ, Material.bezeichnung AS material, rüstungspunkte, härte\n" +
                 "FROM Rüstungsteil\n" +
-                "JOIN Material USING(materialID)\n" +
+                "LEFT JOIN Material USING(materialID)\n" +
                 "JOIN Rüstungstyp USING(rüstungstypID)\n" +
                 "WHERE Rüstungsteil.bezeichnung = ?";
         try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {

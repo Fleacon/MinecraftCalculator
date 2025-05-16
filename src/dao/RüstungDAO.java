@@ -57,6 +57,22 @@ public class RüstungDAO {
         }
     }
 
+    public ArrayList<Rüstung> getAllRüstungByTyp(String typ) throws SQLException {
+        String sql = "SELECT Rüstungsteil.bezeichnung AS bezeichnung, typ, Material.bezeichnung AS material, rüstungspunkte, härte\n" +
+                "FROM Rüstungstyp\n" +
+                "JOIN Rüstungsteil USING(rüstungstypID)\n" +
+                "LEFT JOIN Material USING(materialID)\n" +
+                "WHERE typ = ?";
+        ArrayList<Rüstung> rüstungen = new ArrayList<>();
+        try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                rüstungen.add(readAndCreate(rs));
+            }
+            return rüstungen;
+        }
+    }
+
     private Rüstung readAndCreate(ResultSet rs) throws SQLException{
         String bezeichnung = rs.getString("bezeichnung");
         String körperteil = rs.getString("typ");

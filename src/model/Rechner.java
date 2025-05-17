@@ -1,14 +1,29 @@
 package model;
 
+/**
+ * Berechnet die Schadensauswirkung zwischen Spieler und Mob.
+ * Wendet Minecraft-Kampfmechaniken für die Schadensberechnung an.
+ */
 public class Rechner {
     private Player player;
     private Mob mob;
 
+    /**
+     * Erstellt einen neuen Rechner mit einem Mob und einem Spieler.
+     *
+     * @param mob Der Mob, der Schaden erleidet
+     * @param player Der Spieler, der Schaden verursacht
+     */
     public Rechner(Mob mob, Player player) {
         this.mob = mob;
         this.player = player;
     }
 
+    /**
+     * Berechnet den tatsächlichen Schaden, den der Spieler dem Mob zufügt
+     *
+     * @return Der berechnete Schaden
+     */
     public double berechneSchaden() {
         RedWerte dmgRedWerte = mob.berechneSchadensreduktion();
         int eingehenderSchaden = player.berechneAngriffskraft();
@@ -27,6 +42,11 @@ public class Rechner {
         return eingehenderSchaden * damageMultiplier;
     }
 
+    /**
+     * Wechselt den Mob, der im Rechner verwendet wird.
+     *
+     * @param mob Der neue Mob
+     */
     public void changeMob(Mob mob) {
         this.mob = mob;
     }

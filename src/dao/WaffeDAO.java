@@ -8,7 +8,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Datenzugriffsklasse für Waffen.
+ * Ermöglicht das Abrufen von Waffeninformationen aus der Datenbank.
+ */
 public class WaffeDAO {
+
+    /**
+     * Sucht eine Waffe anhand ihrer ID in der Datenbank.
+     *
+     * @param id Die ID der gesuchten Waffe
+     * @return Waffe-Objekt oder null, falls nicht gefunden
+     * @throws SQLException Bei Datenbankfehlern
+     */
     public Waffe getWaffeByID(int id) throws SQLException {
         String sql = "SELECT Waffe.bezeichnung AS waffenbezeichnung, schaden, Material.bezeichnung AS material, Waffentyp.typ AS typ\n" +
                 "FROM Waffe \n" +
@@ -25,6 +37,13 @@ public class WaffeDAO {
         return null;
     }
 
+    /**
+     * Sucht eine Waffe anhand ihrer Bezeichnung in der Datenbank.
+     *
+     * @param bez Die Bezeichnung der gesuchten Waffe
+     * @return Waffe-Objekt oder null, falls nicht gefunden
+     * @throws SQLException Bei Datenbankfehlern
+     */
     public Waffe getWaffeByBezeichnung(String bez) throws SQLException {
         String sql = "SELECT Waffe.bezeichnung AS waffenbezeichnung, schaden, Material.bezeichnung AS material, Waffentyp.typ AS typ\n" +
                 "FROM Waffe \n" +
@@ -41,6 +60,12 @@ public class WaffeDAO {
         return null;
     }
 
+    /**
+     * Gibt alle Waffen aus der Datenbank zurück.
+     *
+     * @return Liste aller Waffen
+     * @throws SQLException Bei Datenbankfehlern
+     */
     public ArrayList<Waffe> getAllWaffen() throws SQLException {
         String sql = "SELECT Waffe.bezeichnung AS waffenbezeichnung, schaden, Material.bezeichnung AS material, Waffentyp.typ AS typ\n" +
                 "FROM Waffe\n"+
@@ -56,6 +81,13 @@ public class WaffeDAO {
         }
     }
 
+    /**
+     * Erstellt ein Waffe-Objekt aus einem ResultSet.
+     *
+     * @param rs Das ResultSet, aus dem die Daten gelesen werden
+     * @return Ein neues Waffe-Objekt
+     * @throws SQLException Bei Fehlern beim Lesen aus dem ResultSet
+     */
     private Waffe readAndCreate(ResultSet rs) throws SQLException {
         String bezeichnung = rs.getString("waffenbezeichnung");
         String typ = rs.getString("typ");

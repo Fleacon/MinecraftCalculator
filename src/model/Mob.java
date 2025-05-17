@@ -5,6 +5,10 @@ import model.effekte.Effekt;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Repräsentiert einen Mob im Minecraft-Spiel.
+ * Mobs können Rüstung tragen und Effekten unterliegen.
+ */
 public class Mob {
     private String bezeichnung;
     private int hp;
@@ -14,6 +18,14 @@ public class Mob {
     private Rüstung[] rüstungen = new Rüstung[4];
     private ArrayList<Effekt> effekte = new ArrayList<Effekt>();
 
+    /**
+     * Erstellt einen neuen Mob mit den angegebenen Eigenschaften.
+     *
+     * @param bezeichnung Der Name des Mobs
+     * @param hp Die Lebenspunkte des Mobs
+     * @param basisRüstungsPunkte Die Rüstungspunkte ohne zusätzliche Rüstungsteile
+     * @param mobTyp Der Typ des Mobs
+     */
     public Mob(String bezeichnung, int hp, int basisRüstungsPunkte, String mobTyp){
         this.bezeichnung = bezeichnung;
         this.hp = hp;
@@ -21,10 +33,21 @@ public class Mob {
         this.mobTyp = mobTyp;
     }
 
+    /**
+     * Fügt dem Mob einen Effekt hinzu.
+     *
+     * @param effekt Der hinzuzufügende Effekt
+     */
     public void effektHinzufügen(Effekt effekt){
         effekte.add(effekt);
     }
 
+    /**
+     * Legt dem Mob ein Rüstungsteil an.
+     *
+     * @param inRüstung Das anzulegende Rüstungsteil
+     * @return true, wenn das Anlegen erfolgreich war, sonst false
+     */
     public boolean rüstungAnlegen(Rüstung inRüstung){
         if (inRüstung == null)
             return false;
@@ -49,7 +72,12 @@ public class Mob {
         return true;
     }
 
-    // index: 0 = Helm, 1 = Brustplatte, 2 = Hose, 3 = Schuhe
+    /**
+     * Legt ein Rüstungsteil des Mobs ab.
+     *
+     * @param index Der Index des abzulegenden Rüstungsteils (0=Helm, 1=Brustplatte, 2=Hose, 3=Schuhe)
+     * @return true, wenn das Ablegen erfolgreich war, sonst false
+     */
     public boolean rüstungAblegen(int index) {
         if(index > rüstungen.length - 1 || index < 0)
             return false;
@@ -57,6 +85,11 @@ public class Mob {
         return true;
     }
 
+    /**
+     * Berechnet die Schadensreduktionswerte des Mobs basierend auf seiner Rüstung.
+     *
+     * @return Ein RedWerte-Objekt mit den berechneten Rüstungspunkten und Härtewerten
+     */
     public RedWerte berechneSchadensreduktion(){
         int gesamtRüstung = basisRüstungsPunkte;
         int gesamtHärte = 0;
@@ -103,6 +136,11 @@ public class Mob {
         return basisRüstungsPunkte;
     }
 
+    /**
+     * Gibt eine String-Darstellung des Mobs zurück.
+     *
+     * @return Eine textuelle Repräsentation des Mobs
+     */
     public String toString() {
         String a = "Bezeichnung : " + bezeichnung + "\nHp : " + hp + "\nmob Typ : " + mobTyp;
         return a;

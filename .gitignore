@@ -28,3 +28,18 @@ replay_pid*
 *.sqlite
 *.sqlite3
 *.db-journal
+
+# Node modules and dependencies
+node_modules/
+dist/
+out/
+
+# Electron binaries
+*.exe
+*.app
+*.dmg
+*.snap
+
+# Logs and caches
+*.log
+.cache/

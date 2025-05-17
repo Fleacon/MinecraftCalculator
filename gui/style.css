@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.background-container {
+  aspect-ratio: 16/9;
+  width: 100vw;
+  max-width: 100vw;
+  max-height: 100vh;
+  background-image: url("./res/dirt_background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}

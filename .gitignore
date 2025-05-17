@@ -43,3 +43,6 @@ out/
 # Logs and caches
 *.log
 .cache/
+
+# IntelliJ IDEA files
+/.idea

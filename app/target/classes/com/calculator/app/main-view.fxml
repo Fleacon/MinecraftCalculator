@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.calculator.app.MainController">
+    <!-- Background -->
+    <ImageView fx:id="background" preserveRatio="true" >
+        <StackPane.margin>
+            <Insets top="0" bottom="0" left="0" right="0"/>
+        </StackPane.margin>
+    </ImageView>
+
+    <BorderPane fx:id="borderPane">
+        <top>
+            <HBox alignment="CENTER">
+                <padding>
+                    <Insets top="40" />
+                </padding>
+                <ImageView fx:id="logo" preserveRatio="true"/>
+            </HBox>
+        </top>
+        <center>
+            <ImageView fx:id="panel" preserveRatio="true"/>
+        </center>
+    </BorderPane>
+    <!-- VBox for title and center -->
+</StackPane>

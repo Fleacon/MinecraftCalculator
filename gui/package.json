@@ -1,15 +1,14 @@
 {
-  "name": "gui",
+  "name": "electron-background-image-app",
   "version": "1.0.0",
+  "description": "Electron app with full window background image",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
-    "electron": "^36.2.1"
+    "electron": "^22.0.0"
   }
 }

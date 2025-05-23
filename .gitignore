@@ -28,9 +28,3 @@ replay_pid*
 *.sqlite
 *.sqlite3
 *.db-journal
-
-# ignore all idea settings
-.idea/*
-*.iws
-*.iml
-*.ipr

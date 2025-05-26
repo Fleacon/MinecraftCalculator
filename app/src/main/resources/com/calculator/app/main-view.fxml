@@ -41,13 +41,12 @@
                 <Pane fx:id="inventoryContainer" StackPane.alignment="CENTER">
                     <VBox fx:id="inventoryContent" VBox.vgrow="ALWAYS" StackPane.alignment="CENTER">
                         <padding>
-                            <Insets />
+                            <Insets topRightBottomLeft="15"/>
                         </padding>
-                        <HBox alignment="CENTER" >
+                        <HBox fx:id="armorSelector" alignment="CENTER" >
 
                         </HBox>
-                        <FlowPane fx:id="armorInv" alignment="CENTER">
-                        </FlowPane>
+                        <HBox fx:id="armorInv" spacing="0" alignment="CENTER"/>
                     </VBox>
                 </Pane>
             </StackPane>

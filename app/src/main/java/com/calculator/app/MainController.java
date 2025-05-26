@@ -44,6 +44,7 @@ public class MainController implements Initializable {
         inventoryContent.widthProperty().addListener((obs, oldVal, newVal) -> centerVBox());
         inventoryContent.heightProperty().addListener((obs, oldVal, newVal) -> centerVBox());
 
+        generateTiles(7);
     }
 
     private void centerVBox() {
@@ -59,23 +60,39 @@ public class MainController implements Initializable {
         inventoryContent.setLayoutY(y);
     }
 
+    private void generateTiles(int tileCount) {
         Image sharedImage = new Image(getClass().getResource("/res/tile.png").toExternalForm());
-        for (int i = 0; i < 2; i++) {
+
+        double size = 8.0;
+        DoubleBinding tileSize = Bindings.createDoubleBinding(() -> {
+            double w = inventoryContent.getWidth() / size;
+            double h = inventoryContent.getHeight() / size;
+            return Math.min(w, h);
+        }, inventoryContent.widthProperty(), inventoryContent.heightProperty());
+
+        for (int i = 0; i < tileCount; i++) {
             ImageView image = new ImageView(); // Reuse same image
-            image.maxWidth(16);
-            image.maxHeight(16);
+
             image.setImage(sharedImage);
             image.setPreserveRatio(true);
 
+            image.fitWidthProperty().bind(tileSize);
+            image.fitHeightProperty().bind(tileSize);
+
             Button button = new Button();
             button.setOpacity(0);
-            button.prefWidthProperty().bind(image.fitWidthProperty());
-            button.prefHeightProperty().bind(image.fitHeightProperty());
+            button.setPadding(Insets.EMPTY);
 
-            StackPane tileButton = new StackPane();
-            tileButton.getChildren().addAll(image, button);
+            button.minWidthProperty().bind(tileSize);
+            button.prefWidthProperty().bind(tileSize);
+            button.maxWidthProperty().bind(tileSize);
 
-            armorInv.getChildren().add(tileButton);
+            button.minHeightProperty().bind(tileSize);
+            button.prefHeightProperty().bind(tileSize);
+            button.maxHeightProperty().bind(tileSize);
+
+            Group tile = new Group(image, button);
+            armorInv.getChildren().add(tile);
         }
     }
 }

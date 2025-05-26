@@ -3,26 +3,57 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.geometry.Insets?>
 
+<?import javafx.scene.control.Button?>
+<?import com.calculator.app.WrappedImageView?>
 <StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.calculator.app.MainController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
     <!-- Background -->
     <ImageView fx:id="background" preserveRatio="true" >
         <StackPane.margin>
             <Insets top="0" bottom="0" left="0" right="0"/>
         </StackPane.margin>
     </ImageView>
+    <VBox fx:id="vBox" alignment="CENTER">
+        <ImageView fx:id="logo" preserveRatio="true"/>
+        <GridPane fx:id="gridPane">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="5" />
+                <ColumnConstraints percentWidth="45"/>
+            </columnConstraints>
+            <VBox GridPane.columnIndex="0" alignment="CENTER">
+                <Button></Button>
+                <Button></Button>
+                <Button></Button>
+                <Button></Button>
+            </VBox>
+            <StackPane GridPane.columnIndex="1">
 
-    <BorderPane fx:id="borderPane">
-        <top>
-            <HBox alignment="CENTER">
-                <padding>
-                    <Insets top="40" />
-                </padding>
-                <ImageView fx:id="logo" preserveRatio="true"/>
-            </HBox>
-        </top>
-        <center>
-            <ImageView fx:id="panel" preserveRatio="true"/>
-        </center>
-    </BorderPane>
-    <!-- VBox for title and center -->
+            </StackPane>
+            <StackPane GridPane.columnIndex="2">
+
+            </StackPane>
+            <StackPane GridPane.columnIndex="3" fx:id="inventory">
+                <WrappedImageView fx:id="inventoryBg"/>
+                <Pane fx:id="inventoryContainer" style="-fx-border-color:white;">
+                    <VBox fx:id="inventoryContent" style="-fx-border-color:black;">
+                        <VBox.margin>
+                            <Insets topRightBottomLeft="20"/>
+                        </VBox.margin>
+                        <padding>
+                            <Insets />
+                        </padding>
+                        <HBox alignment="CENTER" >
+
+                        </HBox>
+                        <FlowPane fx:id="armorInv" alignment="CENTER">
+                        </FlowPane>
+                    </VBox>
+                </Pane>
+            </StackPane>
+        </GridPane>
+    </VBox>
 </StackPane>

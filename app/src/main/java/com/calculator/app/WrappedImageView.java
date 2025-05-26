@@ -62,4 +62,5 @@ public class WrappedImageView extends ImageView
         setFitWidth(width);
         setFitHeight(height);
     }
+
 }

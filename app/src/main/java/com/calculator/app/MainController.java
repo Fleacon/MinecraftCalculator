@@ -31,19 +31,15 @@ public class MainController implements Initializable {
         Image invBgImg = new Image(getClass().getResource("/res/inv_Window.png").toExternalForm());
         inventoryBg.setImage(invBgImg);
 
-        inventory.sceneProperty().addListener((observable, oldVal, newVal) -> {
-            double ratio = invBgImg.getHeight() / invBgImg.getWidth();
-            System.out.println(ratio);
-            double newHeight = invBgImg.getWidth() * 1/ratio;
-            System.out.println("newHeight:" + newHeight + "\n expectedHeight: " + invBgImg.getHeight());
-            inventoryContainer.setPrefHeight(invBgImg.getHeight());
-        });
+        inventoryContent.prefWidthProperty().bind(inventoryContainer.widthProperty());
+        inventoryContent.prefHeightProperty().bind(inventoryContainer.heightProperty());
 
         Image sharedImage = new Image(getClass().getResource("/res/tile.png").toExternalForm());
         for (int i = 0; i < 2; i++) {
-            WrappedImageView image = new WrappedImageView(); // Reuse same image
+            ImageView image = new ImageView(); // Reuse same image
+            image.maxWidth(16);
+            image.maxHeight(16);
             image.setImage(sharedImage);
-            image.maxWidth(72);
             image.setPreserveRatio(true);
 
             Button button = new Button();

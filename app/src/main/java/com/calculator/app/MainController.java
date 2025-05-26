@@ -1,7 +1,11 @@
 package com.calculator.app;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,7 +24,7 @@ public class MainController implements Initializable {
     @FXML private StackPane inventory;
     @FXML private Pane inventoryContainer;
     @FXML private VBox inventoryContent;
-    @FXML private FlowPane armorInv;
+    @FXML private HBox armorInv;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -30,9 +34,30 @@ public class MainController implements Initializable {
 
         Image invBgImg = new Image(getClass().getResource("/res/inv_Window.png").toExternalForm());
         inventoryBg.setImage(invBgImg);
+        double ratio = invBgImg.getWidth() / invBgImg.getHeight();
 
         inventoryContent.prefWidthProperty().bind(inventoryContainer.widthProperty());
-        inventoryContent.prefHeightProperty().bind(inventoryContainer.heightProperty());
+        inventoryContent.prefHeightProperty().bind(inventoryContainer.widthProperty().multiply(1/ratio));
+
+        inventoryContainer.widthProperty().addListener((obs, oldVal, newVal) -> centerVBox());
+        inventoryContainer.heightProperty().addListener((obs, oldVal, newVal) -> centerVBox());
+        inventoryContent.widthProperty().addListener((obs, oldVal, newVal) -> centerVBox());
+        inventoryContent.heightProperty().addListener((obs, oldVal, newVal) -> centerVBox());
+
+    }
+
+    private void centerVBox() {
+        double containerWidth = inventoryContainer.getWidth();
+        double containerHeight = inventoryContainer.getHeight();
+        double contentWidth = inventoryContent.getWidth();
+        double contentHeight = inventoryContent.getHeight();
+
+        double x = (containerWidth - contentWidth) / 2;
+        double y = (containerHeight - contentHeight) / 2;
+
+        inventoryContent.setLayoutX(x);
+        inventoryContent.setLayoutY(y);
+    }
 
         Image sharedImage = new Image(getClass().getResource("/res/tile.png").toExternalForm());
         for (int i = 0; i < 2; i++) {

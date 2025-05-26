@@ -38,8 +38,8 @@
             </StackPane>
             <StackPane GridPane.columnIndex="3" fx:id="inventory">
                 <WrappedImageView fx:id="inventoryBg" StackPane.alignment="CENTER"/>
-                <Pane fx:id="inventoryContainer" style="-fx-border-color:white;" StackPane.alignment="CENTER">
-                    <VBox fx:id="inventoryContent" style="-fx-border-color:black;" VBox.vgrow="ALWAYS" StackPane.alignment="CENTER">
+                <Pane fx:id="inventoryContainer" StackPane.alignment="CENTER">
+                    <VBox fx:id="inventoryContent" VBox.vgrow="ALWAYS" StackPane.alignment="CENTER">
                         <padding>
                             <Insets />
                         </padding>

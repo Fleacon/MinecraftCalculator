@@ -42,6 +42,8 @@ public class MainController implements Initializable {
     @FXML private Button button31;
     @FXML private Button button41;
 
+    @FXML private VBox buttonsvbox;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -73,10 +75,27 @@ public class MainController implements Initializable {
         armorWaponbuttom.prefWidthProperty().bind(armorWaponbuttom.widthProperty());
         optionsWaponbuttom.prefWidthProperty().bind(optionsWaponbuttom.widthProperty());
 
-        button11.prefWidthProperty().bind(button1.fitWidthProperty());
+
         button21.prefWidthProperty().bind(button2.fitWidthProperty());
         button31.prefWidthProperty().bind(button3.fitWidthProperty());
         button41.prefWidthProperty().bind(button4.fitWidthProperty());
+
+        double ratiobuttons = 80/392;
+
+
+        button21.prefHeightProperty().bind(button2.fitWidthProperty().multiply(ratiobuttons));
+        button31.prefHeightProperty().bind(button3.fitWidthProperty().multiply(ratiobuttons));
+        button41.prefHeightProperty().bind(button4.fitWidthProperty().multiply(ratiobuttons));
+
+
+
+
+        button11.prefWidthProperty().bind(button1.fitWidthProperty());
+
+
+
+        button11.minHeightProperty().bind(buttonsvbox.widthProperty().multiply(ratiobuttons));
+
     }
 
     private void centerVBox() {

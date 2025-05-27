@@ -25,21 +25,21 @@
                 <ColumnConstraints percentWidth="45"/>
             </columnConstraints>
 
-            <VBox GridPane.columnIndex="0" alignment="CENTER" style="-fx-border-color : white;">
+            <VBox fx:id="buttonsvbox" GridPane.columnIndex="0" alignment="CENTER" style="-fx-border-color : white;">
                 <StackPane fx:id="paneWaponbuttom" style="-fx-border-color : green;">
-                    <ImageView fx:id="button1" preserveRatio="true" fitWidth="150"></ImageView>
-                    <Button fx:id="button11" visible="false"></Button>
+                    <WrappedImageView fx:id="button1" preserveRatio="true" fitWidth="150"></WrappedImageView>
+                    <Button fx:id="button11" ></Button>
                 </StackPane>
                 <StackPane fx:id="entityWaponbuttom" style="-fx-border-color : green;">
-                    <ImageView fx:id="button2" preserveRatio="true" fitWidth="150"></ImageView>
+                    <WrappedImageView fx:id="button2" preserveRatio="true" fitWidth="150"></WrappedImageView>
                     <Button fx:id="button21"></Button>
                 </StackPane>
                 <StackPane fx:id="armorWaponbuttom" style="-fx-border-color : green;">
-                    <ImageView fx:id="button3" preserveRatio="true" fitWidth="150"></ImageView>
+                    <WrappedImageView fx:id="button3" preserveRatio="true" fitWidth="150"></WrappedImageView>
                     <Button fx:id="button31"></Button>
                 </StackPane>
                 <StackPane fx:id="optionsWaponbuttom" style="-fx-border-color : green;">
-                    <ImageView fx:id="button4" preserveRatio="true" fitWidth="150"></ImageView>
+                    <WrappedImageView fx:id="button4" preserveRatio="true" fitWidth="150"></WrappedImageView>
                     <Button fx:id="button41"></Button>
                 </StackPane>
             </VBox>

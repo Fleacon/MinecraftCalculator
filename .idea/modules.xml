@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/MinecraftCalculator.iml" filepath="$PROJECT_DIR$/.idea/MinecraftCalculator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MinecraftCalculator.iml" filepath="$PROJECT_DIR$/MinecraftCalculator.iml" />
     </modules>
   </component>
 </project>

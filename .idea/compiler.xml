@@ -9,5 +9,9 @@
         <module name="app" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="minecraft-calculator" target="1.5" />
+      <module name="source" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>

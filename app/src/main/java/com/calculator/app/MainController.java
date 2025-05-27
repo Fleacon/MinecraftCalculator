@@ -23,11 +23,24 @@ public class MainController implements Initializable {
     @FXML private ImageView inventoryBg;
 
     @FXML private ImageView button1;
+    @FXML private ImageView button2;
+    @FXML private ImageView button3;
+    @FXML private ImageView button4;
 
     @FXML private StackPane inventory;
     @FXML private Pane inventoryContainer;
     @FXML private VBox inventoryContent;
     @FXML private HBox armorInv;
+
+    @FXML private Pane paneWaponbuttom;
+    @FXML private Pane entityWaponbuttom;
+    @FXML private Pane armorWaponbuttom;
+    @FXML private Pane optionsWaponbuttom;
+
+    @FXML private Button button11;
+    @FXML private Button button21;
+    @FXML private Button button31;
+    @FXML private Button button41;
 
 
     @Override
@@ -35,7 +48,11 @@ public class MainController implements Initializable {
         background.setImage(new Image(getClass().getResource("/res/background_texture.png").toExternalForm()));
         logo.setImage(new Image(getClass().getResource("/res/logo.png").toExternalForm()));
         logo.fitHeightProperty().bind(vBox.heightProperty().multiply(0.25));
-        button1.setImage(new Image(getClass().getResource("/res/tile.png").toExternalForm()));
+
+        button1.setImage(new Image(getClass().getResource("/res/weaponButton.png").toExternalForm()));
+        button2.setImage(new Image(getClass().getResource("/res/entityButton.png").toExternalForm()));
+        button3.setImage(new Image(getClass().getResource("/res/armorButton.png").toExternalForm()));
+        button4.setImage(new Image(getClass().getResource("/res/optionsButton.png").toExternalForm()));
 
         Image invBgImg = new Image(getClass().getResource("/res/inv_Window.png").toExternalForm());
         inventoryBg.setImage(invBgImg);
@@ -50,6 +67,16 @@ public class MainController implements Initializable {
         inventoryContent.heightProperty().addListener((obs, oldVal, newVal) -> centerVBox());
         int i = 7;
         generateTiles(i);
+
+        paneWaponbuttom.prefWidthProperty().bind(paneWaponbuttom.widthProperty());
+        entityWaponbuttom.prefWidthProperty().bind(entityWaponbuttom.widthProperty());
+        armorWaponbuttom.prefWidthProperty().bind(armorWaponbuttom.widthProperty());
+        optionsWaponbuttom.prefWidthProperty().bind(optionsWaponbuttom.widthProperty());
+
+        button11.prefWidthProperty().bind(button1.fitWidthProperty());
+        button21.prefWidthProperty().bind(button2.fitWidthProperty());
+        button31.prefWidthProperty().bind(button3.fitWidthProperty());
+        button41.prefWidthProperty().bind(button4.fitWidthProperty());
     }
 
     private void centerVBox() {

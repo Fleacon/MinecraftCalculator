@@ -21,16 +21,21 @@ public class MainController implements Initializable {
     @FXML private ImageView background;
     @FXML private ImageView logo;
     @FXML private ImageView inventoryBg;
+
+    @FXML private ImageView button1;
+
     @FXML private StackPane inventory;
     @FXML private Pane inventoryContainer;
     @FXML private VBox inventoryContent;
     @FXML private HBox armorInv;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         background.setImage(new Image(getClass().getResource("/res/background_texture.png").toExternalForm()));
         logo.setImage(new Image(getClass().getResource("/res/logo.png").toExternalForm()));
         logo.fitHeightProperty().bind(vBox.heightProperty().multiply(0.25));
+        button1.setImage(new Image(getClass().getResource("/res/tile.png").toExternalForm()));
 
         Image invBgImg = new Image(getClass().getResource("/res/inv_Window.png").toExternalForm());
         inventoryBg.setImage(invBgImg);
@@ -43,8 +48,8 @@ public class MainController implements Initializable {
         inventoryContainer.heightProperty().addListener((obs, oldVal, newVal) -> centerVBox());
         inventoryContent.widthProperty().addListener((obs, oldVal, newVal) -> centerVBox());
         inventoryContent.heightProperty().addListener((obs, oldVal, newVal) -> centerVBox());
-
-        generateTiles(7);
+        int i = 7;
+        generateTiles(i);
     }
 
     private void centerVBox() {

@@ -24,11 +24,22 @@
                 <ColumnConstraints percentWidth="5" />
                 <ColumnConstraints percentWidth="45"/>
             </columnConstraints>
+
             <VBox GridPane.columnIndex="0" alignment="CENTER">
-                <Button></Button>
-                <Button></Button>
-                <Button></Button>
-                <Button></Button>
+                <StackPane>
+                    <ImageView fx:id="button1"></ImageView>
+                    <Button visible="false"></Button>
+
+                </StackPane>
+                <StackPane>
+                    <Button></Button>
+                </StackPane>
+                <StackPane>
+                    <Button></Button>
+                </StackPane>
+                <StackPane>
+                    <Button></Button>
+                </StackPane>
             </VBox>
             <StackPane GridPane.columnIndex="1">
 

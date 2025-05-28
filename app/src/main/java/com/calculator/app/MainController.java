@@ -91,10 +91,10 @@ public class MainController implements Initializable {
 
 
         button11.prefWidthProperty().bind(button1.fitWidthProperty());
+        button11.autosize();
 
 
-
-        button11.minHeightProperty().bind(buttonsvbox.widthProperty().multiply(ratiobuttons));
+        //button11.minHeightProperty().bind(buttonsvbox.widthProperty().multiply(ratiobuttons));
 
     }
 

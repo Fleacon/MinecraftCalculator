@@ -22,28 +22,17 @@ public class MainController implements Initializable {
     @FXML private ImageView logo;
     @FXML private ImageView inventoryBg;
 
-    @FXML private ImageView button1;
-    @FXML private ImageView button2;
-    @FXML private ImageView button3;
-    @FXML private ImageView button4;
-
     @FXML private StackPane inventory;
     @FXML private Pane inventoryContainer;
     @FXML private VBox inventoryContent;
     @FXML private HBox armorInv;
 
-    @FXML private Pane paneWaponbuttom;
-    @FXML private Pane entityWaponbuttom;
-    @FXML private Pane armorWaponbuttom;
-    @FXML private Pane optionsWaponbuttom;
-
-    @FXML private Button button11;
-    @FXML private Button button21;
-    @FXML private Button button31;
-    @FXML private Button button41;
-
     @FXML private VBox buttonsvbox;
 
+    @FXML private Button imageButton1;
+    @FXML private Button imageButton2;
+    @FXML private Button imageButton3;
+    @FXML private Button imageButton4;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,10 +40,8 @@ public class MainController implements Initializable {
         logo.setImage(new Image(getClass().getResource("/res/logo.png").toExternalForm()));
         logo.fitHeightProperty().bind(vBox.heightProperty().multiply(0.25));
 
-        button1.setImage(new Image(getClass().getResource("/res/weaponButton.png").toExternalForm()));
-        button2.setImage(new Image(getClass().getResource("/res/entityButton.png").toExternalForm()));
-        button3.setImage(new Image(getClass().getResource("/res/armorButton.png").toExternalForm()));
-        button4.setImage(new Image(getClass().getResource("/res/optionsButton.png").toExternalForm()));
+
+
 
         Image invBgImg = new Image(getClass().getResource("/res/inv_Window.png").toExternalForm());
         inventoryBg.setImage(invBgImg);
@@ -70,31 +57,101 @@ public class MainController implements Initializable {
         int i = 7;
         generateTiles(i);
 
-        paneWaponbuttom.prefWidthProperty().bind(paneWaponbuttom.widthProperty());
-        entityWaponbuttom.prefWidthProperty().bind(entityWaponbuttom.widthProperty());
-        armorWaponbuttom.prefWidthProperty().bind(armorWaponbuttom.widthProperty());
-        optionsWaponbuttom.prefWidthProperty().bind(optionsWaponbuttom.widthProperty());
-
-
-        button21.prefWidthProperty().bind(button2.fitWidthProperty());
-        button31.prefWidthProperty().bind(button3.fitWidthProperty());
-        button41.prefWidthProperty().bind(button4.fitWidthProperty());
-
-        double ratiobuttons = 80/392;
-
-
-        button21.prefHeightProperty().bind(button2.fitWidthProperty().multiply(ratiobuttons));
-        button31.prefHeightProperty().bind(button3.fitWidthProperty().multiply(ratiobuttons));
-        button41.prefHeightProperty().bind(button4.fitWidthProperty().multiply(ratiobuttons));
 
 
 
 
-        button11.prefWidthProperty().bind(button1.fitWidthProperty());
-        button11.autosize();
+
+        // Bild laden
+        Image image1 = new Image(getClass().getResource("/res/weaponButton.png").toExternalForm());
+
+        // ImageView vorbereiten
+        ImageView imageView1 = new ImageView(image1);
+        imageView1.setPreserveRatio(true);
+
+        // Das Bild wird zunächst "normal" eingesetzt
+        imageButton1.setGraphic(imageView1);
+
+        // WICHTIG: Buttongröße an Parent binden
+        imageButton1.prefWidthProperty().bind(((Region) imageButton1.getParent()).widthProperty().multiply(0.9));
+        imageButton1.prefHeightProperty().bind(((Region) imageButton1.getParent()).heightProperty().multiply(0.9));
+
+        // NACH Buttongröße → Bildgröße daran binden
+        imageView1.fitWidthProperty().bind(imageButton1.prefWidthProperty());
+        imageView1.fitHeightProperty().bind(imageButton1.prefHeightProperty());
+
+        // Optional: Transparenter Buttonhintergrund
+        //imageButton.setStyle("-fx-background-color: transparent;");
 
 
-        //button11.minHeightProperty().bind(buttonsvbox.widthProperty().multiply(ratiobuttons));
+
+        // Bild laden
+        Image image2 = new Image(getClass().getResource("/res/weaponButton.png").toExternalForm());
+
+        // ImageView vorbereiten
+        ImageView imageView2 = new ImageView(image2);
+        imageView2.setPreserveRatio(true);
+
+        // Das Bild wird zunächst "normal" eingesetzt
+        imageButton2.setGraphic(imageView2);
+
+        // WICHTIG: Buttongröße an Parent binden
+        imageButton2.prefWidthProperty().bind(((Region) imageButton2.getParent()).widthProperty().multiply(0.9));
+        imageButton2.prefHeightProperty().bind(((Region) imageButton2.getParent()).heightProperty().multiply(0.9));
+
+        // NACH Buttongröße → Bildgröße daran binden
+        imageView2.fitWidthProperty().bind(imageButton2.prefWidthProperty());
+        imageView2.fitHeightProperty().bind(imageButton2.prefHeightProperty());
+
+        // Optional: Transparenter Buttonhintergrund
+        //imageButton.setStyle("-fx-background-color: transparent;");
+
+
+
+        // Bild laden
+        Image image3 = new Image(getClass().getResource("/res/weaponButton.png").toExternalForm());
+
+        // ImageView vorbereiten
+        ImageView imageView3 = new ImageView(image3);
+        imageView3.setPreserveRatio(true);
+
+        // Das Bild wird zunächst "normal" eingesetzt
+        imageButton3.setGraphic(imageView3);
+
+        // WICHTIG: Buttongröße an Parent binden
+        imageButton3.prefWidthProperty().bind(((Region) imageButton3.getParent()).widthProperty().multiply(0.9));
+        imageButton3.prefHeightProperty().bind(((Region) imageButton3.getParent()).heightProperty().multiply(0.9));
+
+        // NACH Buttongröße → Bildgröße daran binden
+        imageView3.fitWidthProperty().bind(imageButton3.prefWidthProperty());
+        imageView3.fitHeightProperty().bind(imageButton3.prefHeightProperty());
+
+        // Optional: Transparenter Buttonhintergrund
+        //imageButton.setStyle("-fx-background-color: transparent;");
+
+
+
+        // Bild laden
+        Image image = new Image(getClass().getResource("/res/weaponButton.png").toExternalForm());
+
+        // ImageView vorbereiten
+        ImageView imageView4 = new ImageView(image);
+        imageView4.setPreserveRatio(true);
+
+        // Das Bild wird zunächst "normal" eingesetzt
+        imageButton4.setGraphic(imageView4);
+
+        // WICHTIG: Buttongröße an Parent binden
+        imageButton4.prefWidthProperty().bind(((Region) imageButton4.getParent()).widthProperty().multiply(0.9));
+        imageButton4.prefHeightProperty().bind(((Region) imageButton4.getParent()).heightProperty().multiply(0.9));
+
+        // NACH Buttongröße → Bildgröße daran binden
+        imageView4.fitWidthProperty().bind(imageButton4.prefWidthProperty());
+        imageView4.fitHeightProperty().bind(imageButton4.prefHeightProperty());
+
+        // Optional: Transparenter Buttonhintergrund
+        //imageButton.setStyle("-fx-background-color: transparent;");
+
 
     }
 

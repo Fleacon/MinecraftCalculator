@@ -26,22 +26,24 @@
             </columnConstraints>
 
             <VBox fx:id="buttonsvbox" GridPane.columnIndex="0" alignment="CENTER" style="-fx-border-color : white;">
-                <StackPane fx:id="paneWaponbuttom" style="-fx-border-color : green;">
-                    <WrappedImageView fx:id="button1" preserveRatio="true" fitWidth="150"></WrappedImageView>
-                    <Button fx:id="button11" ></Button>
+
+                <StackPane>
+
+                    <Button fx:id="imageButton1" />
                 </StackPane>
-                <StackPane fx:id="entityWaponbuttom" style="-fx-border-color : green;">
-                    <WrappedImageView fx:id="button2" preserveRatio="true" fitWidth="150"></WrappedImageView>
-                    <Button fx:id="button21"></Button>
+                <StackPane>
+
+                    <Button fx:id="imageButton2" />
                 </StackPane>
-                <StackPane fx:id="armorWaponbuttom" style="-fx-border-color : green;">
-                    <WrappedImageView fx:id="button3" preserveRatio="true" fitWidth="150"></WrappedImageView>
-                    <Button fx:id="button31"></Button>
+                <StackPane>
+
+                    <Button fx:id="imageButton3" />
                 </StackPane>
-                <StackPane fx:id="optionsWaponbuttom" style="-fx-border-color : green;">
-                    <WrappedImageView fx:id="button4" preserveRatio="true" fitWidth="150"></WrappedImageView>
-                    <Button fx:id="button41"></Button>
+                <StackPane>
+
+                    <Button fx:id="imageButton4" />
                 </StackPane>
+
             </VBox>
             <StackPane GridPane.columnIndex="1">
 

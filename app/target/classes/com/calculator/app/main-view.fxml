@@ -24,11 +24,26 @@
                 <ColumnConstraints percentWidth="7" />
                 <ColumnConstraints percentWidth="38"/>
             </columnConstraints>
-            <VBox GridPane.columnIndex="0" alignment="CENTER">
-                <Button></Button>
-                <Button></Button>
-                <Button></Button>
-                <Button></Button>
+
+            <VBox fx:id="buttonsvbox" GridPane.columnIndex="0" alignment="CENTER" style="-fx-border-color : white;">
+
+                <StackPane>
+
+                    <Button fx:id="imageButton1" />
+                </StackPane>
+                <StackPane>
+
+                    <Button fx:id="imageButton2" />
+                </StackPane>
+                <StackPane>
+
+                    <Button fx:id="imageButton3" />
+                </StackPane>
+                <StackPane>
+
+                    <Button fx:id="imageButton4" />
+                </StackPane>
+
             </VBox>
             <StackPane GridPane.columnIndex="1" style="-fx-border-color: white">
                 <WrappedImageView fx:id="mobWindow"/>

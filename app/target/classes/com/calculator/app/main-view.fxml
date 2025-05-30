@@ -45,9 +45,11 @@
                 </StackPane>
 
             </VBox>
-            <StackPane GridPane.columnIndex="1" style="-fx-border-color: white">
-                <WrappedImageView fx:id="mobWindow"/>
-            </StackPane>
+            <VBox GridPane.columnIndex="1" style="-fx-border-color: white">
+                <StackPane >
+                    <WrappedImageView fx:id="mobWindow"/>
+                </StackPane>
+            </VBox>
             <StackPane GridPane.columnIndex="2">
 
             </StackPane>

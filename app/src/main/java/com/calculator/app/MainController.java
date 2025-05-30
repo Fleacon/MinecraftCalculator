@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -63,7 +64,7 @@ public class MainController implements Initializable {
         inventoryContent.widthProperty().addListener((obs, oldVal, newVal) -> centerVBox());
         inventoryContent.heightProperty().addListener((obs, oldVal, newVal) -> centerVBox());
         int i = 7;
-        generateTiles(i);
+
 
 
 
@@ -94,7 +95,7 @@ public class MainController implements Initializable {
 
 
         // Bild laden
-        Image image2 = new Image(getClass().getResource("/res/weaponButton.png").toExternalForm());
+        Image image2 = new Image(getClass().getResource("/res/entityButton.png").toExternalForm());
 
         // ImageView vorbereiten
         ImageView imageView2 = new ImageView(image2);
@@ -117,7 +118,7 @@ public class MainController implements Initializable {
 
 
         // Bild laden
-        Image image3 = new Image(getClass().getResource("/res/weaponButton.png").toExternalForm());
+        Image image3 = new Image(getClass().getResource("/res/armorButton.png").toExternalForm());
 
         // ImageView vorbereiten
         ImageView imageView3 = new ImageView(image3);
@@ -140,7 +141,7 @@ public class MainController implements Initializable {
 
 
         // Bild laden
-        Image image = new Image(getClass().getResource("/res/weaponButton.png").toExternalForm());
+        Image image = new Image(getClass().getResource("/res/optionsButton.png").toExternalForm());
 
         // ImageView vorbereiten
         ImageView imageView4 = new ImageView(image);

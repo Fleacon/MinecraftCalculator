@@ -23,6 +23,7 @@ public class MainController implements Initializable {
     @FXML private ImageView background;
     @FXML private ImageView logo;
     @FXML private ImageView mobWindow;
+    @FXML private ImageView mobWindowMob;
     @FXML private ImageView inventoryBg;
 
     @FXML private StackPane inventory;
@@ -30,6 +31,11 @@ public class MainController implements Initializable {
     @FXML private VBox inventoryContent;
     @FXML private HBox armorSelector;
     @FXML private HBox armorInv;
+
+    @FXML private HBox entityMobSelection;
+
+    @FXML private Button zombieButton;
+    @FXML private Button skeletonButton;
 
     @FXML private VBox buttonsvbox;
 
@@ -67,8 +73,59 @@ public class MainController implements Initializable {
 
 
 
+        Image zombie = new Image(getClass().getResource("/res/zombie.png").toExternalForm());
+        mobWindowMob.setImage(zombie);
 
 
+
+        mobWindowMob.fitWidthProperty().bind(mobWindow.fitWidthProperty().multiply(0.6));
+        mobWindowMob.fitHeightProperty().bind(mobWindow.fitHeightProperty().multiply(0.6));
+
+
+
+        entityMobSelection.setScaleX(0.5);
+        entityMobSelection.setScaleY(0.2);
+
+        Image entityMobselectionImage = new Image(getClass().getResource("/res/inv_Window.png").toExternalForm());
+
+        BackgroundImage entityMobselectionBackgroundImage = new BackgroundImage(
+                entityMobselectionImage,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+
+        Background entityMobselectionBackground = new Background(entityMobselectionBackgroundImage);
+
+
+        entityMobSelection.setBackground(entityMobselectionBackground);
+
+        Image zombieSpawnEgg = new Image(getClass().getResource("/res/zombie_spawn_egg.png").toExternalForm());
+        Image skeletonSpawnEgg = new Image(getClass().getResource("/res/skeleton_spawn_egg.png").toExternalForm());
+
+        ImageView imageViewzombie = new ImageView(zombieSpawnEgg);
+        //imageViewzombie.setPreserveRatio(true);
+
+        ImageView imageViewskeleton = new ImageView(skeletonSpawnEgg);
+        //imageViewskeleton.setPreserveRatio(true);
+
+        zombieButton.setGraphic(imageViewzombie);
+        skeletonButton.setGraphic(imageViewskeleton);
+
+        zombieButton.prefWidthProperty().bind(((Region) zombieButton.getParent()).widthProperty().multiply(0.5));
+        zombieButton.prefHeightProperty().bind(((Region) zombieButton.getParent()).heightProperty().multiply(1));
+
+        skeletonButton.prefWidthProperty().bind(((Region) skeletonButton.getParent()).widthProperty().multiply(0.5));
+        skeletonButton.prefHeightProperty().bind(((Region) skeletonButton.getParent()).heightProperty().multiply(1));
+
+        imageViewzombie.fitWidthProperty().bind(zombieButton.prefWidthProperty().multiply(0.8));
+        imageViewzombie.fitHeightProperty().bind(zombieButton.prefHeightProperty().multiply(0.8));
+
+        imageViewskeleton.fitWidthProperty().bind(skeletonButton.prefWidthProperty().multiply(0.8));
+        imageViewskeleton.fitHeightProperty().bind(skeletonButton.prefHeightProperty().multiply(0.8));
+
+        zombieButton.setStyle("-fx-background-color: transparent;");
+        skeletonButton.setStyle("-fx-background-color: transparent;");
 
 
         // Bild laden
@@ -90,7 +147,7 @@ public class MainController implements Initializable {
         imageView1.fitHeightProperty().bind(imageButton1.prefHeightProperty());
 
         // Optional: Transparenter Buttonhintergrund
-        //imageButton.setStyle("-fx-background-color: transparent;");
+        //imageButton1.setStyle("-fx-background-color: transparent;");
 
 
 

@@ -45,11 +45,18 @@
                 </StackPane>
 
             </VBox>
+
             <VBox GridPane.columnIndex="1" style="-fx-border-color: white">
-                <StackPane >
-                    <WrappedImageView fx:id="mobWindow"/>
+                <StackPane>
+                    <WrappedImageView fx:id="mobWindow" preserveRatio="true"/>
+                    <ImageView fx:id="mobWindowMob" preserveRatio="true"/>
+                    <HBox fx:id="entityMobSelection" style="-fx-border-color: green" >
+                        <Button fx:id="zombieButton" ></Button>
+                        <Button fx:id="skeletonButton" ></Button>
+                    </HBox>
                 </StackPane>
             </VBox>
+
             <StackPane GridPane.columnIndex="2">
 
             </StackPane>

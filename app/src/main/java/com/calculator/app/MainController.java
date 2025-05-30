@@ -86,7 +86,7 @@ public class MainController implements Initializable {
 
 
         // Bild laden
-        Image image2 = new Image(getClass().getResource("/res/weaponButton.png").toExternalForm());
+        Image image2 = new Image(getClass().getResource("/res/entityButton.png").toExternalForm());
 
         // ImageView vorbereiten
         ImageView imageView2 = new ImageView(image2);
@@ -109,7 +109,7 @@ public class MainController implements Initializable {
 
 
         // Bild laden
-        Image image3 = new Image(getClass().getResource("/res/weaponButton.png").toExternalForm());
+        Image image3 = new Image(getClass().getResource("/res/armorButton.png").toExternalForm());
 
         // ImageView vorbereiten
         ImageView imageView3 = new ImageView(image3);
@@ -132,7 +132,7 @@ public class MainController implements Initializable {
 
 
         // Bild laden
-        Image image = new Image(getClass().getResource("/res/weaponButton.png").toExternalForm());
+        Image image = new Image(getClass().getResource("/res/optionsButton.png").toExternalForm());
 
         // ImageView vorbereiten
         ImageView imageView4 = new ImageView(image);

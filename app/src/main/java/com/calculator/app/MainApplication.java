@@ -10,7 +10,9 @@ import javafx.stage.Stage;
 public class MainApplication extends Application {
 
     private static final double ASPECT_RATIO = 16.0 / 9.0;
+    private static final int BASE_WIDTH = 640;
     private boolean isAdjusting = false;
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/com/calculator/app/main-view.fxml"));

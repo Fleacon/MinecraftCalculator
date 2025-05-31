@@ -98,6 +98,7 @@ public class MainController implements Initializable {
         Background entityMobselectionBackground = new Background(entityMobselectionBackgroundImage);
 
 
+
         entityMobSelection.setBackground(entityMobselectionBackground);
 
         Image zombieSpawnEgg = new Image(getClass().getResource("/res/zombie_spawn_egg.png").toExternalForm());
@@ -127,6 +128,19 @@ public class MainController implements Initializable {
         zombieButton.setStyle("-fx-background-color: transparent;");
         skeletonButton.setStyle("-fx-background-color: transparent;");
 
+        entityMobSelection.setVisible(false);
+
+
+
+        imageButton2.setOnAction(e -> {
+            System.out.println("Button wurde geklickt!");
+            if(entityMobSelection.isVisible()){
+                entityMobSelection.setVisible(false);
+            }else{
+                entityMobSelection.setVisible(true);
+            }
+            // Hier deine gewünschte Aktion
+        });
 
         // Bild laden
         Image image1 = new Image(getClass().getResource("/res/weaponButton.png").toExternalForm());

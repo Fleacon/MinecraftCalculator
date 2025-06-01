@@ -74,6 +74,7 @@ public class MainController implements Initializable {
 
 
         Image zombie = new Image(getClass().getResource("/res/zombie.png").toExternalForm());
+        Image skeleton = new Image(getClass().getResource("/res/skeleton.png").toExternalForm());
         mobWindowMob.setImage(zombie);
 
 
@@ -130,7 +131,15 @@ public class MainController implements Initializable {
 
         entityMobSelection.setVisible(false);
 
+        skeletonButton.setOnAction(e ->{
+            System.out.println("Skelett");
+            mobWindowMob.setImage(skeleton);
+        });
 
+        zombieButton.setOnAction(e ->{
+            System.out.println("Zombie");
+            mobWindowMob.setImage(zombie);
+        });
 
         imageButton2.setOnAction(e -> {
             System.out.println("Button wurde geklickt!");
@@ -184,7 +193,7 @@ public class MainController implements Initializable {
         imageView2.fitHeightProperty().bind(imageButton2.prefHeightProperty());
 
         // Optional: Transparenter Buttonhintergrund
-        //imageButton.setStyle("-fx-background-color: transparent;");
+        imageButton2.setStyle("-fx-background-color: transparent;");
 
 
 

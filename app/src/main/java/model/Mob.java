@@ -3,7 +3,6 @@ package model;
 import model.effekte.Effekt;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Repräsentiert einen Mob im Minecraft-Spiel.

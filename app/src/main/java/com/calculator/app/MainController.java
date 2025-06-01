@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
+    public StackPane mobSelector;
     @FXML private VBox vBox;
     @FXML private GridPane gridPane;
     @FXML private ImageView background;
@@ -43,79 +44,75 @@ public class MainController implements Initializable {
     @FXML private Button imageButton2;
     @FXML private Button imageButton3;
     @FXML private Button imageButton4;
+
     private ToggleGroup helmetsGroup;
     private ToggleGroup chestplatesGroup;
     private ToggleGroup leggingsGroup;
     private ToggleGroup bootsGroup;
 
+    Image zombie = new Image(getClass().getResource("/res/zombie.png").toExternalForm());
+    Image skeleton = new Image(getClass().getResource("/res/skeleton.png").toExternalForm());
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
         background.setImage(new Image(getClass().getResource("/res/background_texture.png").toExternalForm()));
         logo.setImage(new Image(getClass().getResource("/res/logo.png").toExternalForm()));
         logo.fitHeightProperty().bind(vBox.heightProperty().multiply(0.25));
-
-
 
         mobWindow.setImage(new Image(getClass().getResource("/res/mobWindow.png").toExternalForm()));
 
         Image invBgImg = new Image(getClass().getResource("/res/inv_Window.png").toExternalForm());
         inventoryBg.setImage(invBgImg);
-        double ratio = invBgImg.getWidth() / invBgImg.getHeight();
+        double invRatio = invBgImg.getWidth() / invBgImg.getHeight();
 
         inventoryContent.prefWidthProperty().bind(inventoryContainer.widthProperty());
-        inventoryContent.prefHeightProperty().bind(inventoryContainer.widthProperty().multiply(1/ratio));
+        inventoryContent.prefHeightProperty().bind(inventoryContainer.widthProperty().multiply(1/invRatio));
 
         inventoryContainer.widthProperty().addListener((obs, oldVal, newVal) -> centerVBox());
         inventoryContainer.heightProperty().addListener((obs, oldVal, newVal) -> centerVBox());
         inventoryContent.widthProperty().addListener((obs, oldVal, newVal) -> centerVBox());
         inventoryContent.heightProperty().addListener((obs, oldVal, newVal) -> centerVBox());
-        int i = 7;
 
-
-
-        Image zombie = new Image(getClass().getResource("/res/zombie.png").toExternalForm());
-        Image skeleton = new Image(getClass().getResource("/res/skeleton.png").toExternalForm());
         mobWindowMob.setImage(zombie);
-
-
 
         mobWindowMob.fitWidthProperty().bind(mobWindow.fitWidthProperty().multiply(0.6));
         mobWindowMob.fitHeightProperty().bind(mobWindow.fitHeightProperty().multiply(0.6));
 
 
-
-        entityMobSelection.setScaleX(0.5);
-        entityMobSelection.setScaleY(0.2);
-
-        Image entityMobselectionImage = new Image(getClass().getResource("/res/inv_Window.png").toExternalForm());
+        Image entityMobselectionImage = new Image(getClass().getResource("/res/entityContainer.png").toExternalForm());
+        double mobSelRatio = entityMobselectionImage.getWidth() / entityMobselectionImage.getHeight();
 
         BackgroundImage entityMobselectionBackgroundImage = new BackgroundImage(
                 entityMobselectionImage,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100, 100, true, true, true, false));
 
         Background entityMobselectionBackground = new Background(entityMobselectionBackgroundImage);
 
 
-
         entityMobSelection.setBackground(entityMobselectionBackground);
+        entityMobSelection.maxWidthProperty().bind(mobSelector.widthProperty().multiply(0.6));
+        entityMobSelection.maxHeightProperty().bind(mobSelector.widthProperty().multiply(0.6*(1/mobSelRatio)));
 
         Image zombieSpawnEgg = new Image(getClass().getResource("/res/zombie_spawn_egg.png").toExternalForm());
         Image skeletonSpawnEgg = new Image(getClass().getResource("/res/skeleton_spawn_egg.png").toExternalForm());
 
         ImageView imageViewzombie = new ImageView(zombieSpawnEgg);
-        //imageViewzombie.setPreserveRatio(true);
+        imageViewzombie.setPreserveRatio(true);
 
         ImageView imageViewskeleton = new ImageView(skeletonSpawnEgg);
-        //imageViewskeleton.setPreserveRatio(true);
+        imageViewskeleton.setPreserveRatio(true);
 
         zombieButton.setGraphic(imageViewzombie);
         skeletonButton.setGraphic(imageViewskeleton);
 
         zombieButton.prefWidthProperty().bind(((Region) zombieButton.getParent()).widthProperty().multiply(0.5));
         zombieButton.prefHeightProperty().bind(((Region) zombieButton.getParent()).heightProperty().multiply(1));
+        DoubleBinding tileSize = Bindings.createDoubleBinding(() -> {
 
         skeletonButton.prefWidthProperty().bind(((Region) skeletonButton.getParent()).widthProperty().multiply(0.5));
         skeletonButton.prefHeightProperty().bind(((Region) skeletonButton.getParent()).heightProperty().multiply(1));
@@ -126,8 +123,8 @@ public class MainController implements Initializable {
         imageViewskeleton.fitWidthProperty().bind(skeletonButton.prefWidthProperty().multiply(0.8));
         imageViewskeleton.fitHeightProperty().bind(skeletonButton.prefHeightProperty().multiply(0.8));
 
-        zombieButton.setStyle("-fx-background-color: transparent;");
-        skeletonButton.setStyle("-fx-background-color: transparent;");
+        imageViewskeleton.fitWidthProperty().bind(tileSize);
+        imageViewskeleton.fitHeightProperty().bind(tileSize);
 
         entityMobSelection.setVisible(false);
 
@@ -150,6 +147,8 @@ public class MainController implements Initializable {
             }
             // Hier deine gewünschte Aktion
         });
+
+        // Links Buttons
 
         // Bild laden
         Image image1 = new Image(getClass().getResource("/res/weaponButton.png").toExternalForm());

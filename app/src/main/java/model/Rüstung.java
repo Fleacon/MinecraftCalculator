@@ -14,6 +14,7 @@ public class Rüstung {
     private String material;
     private int rüstungsPunkte;
     private int härte;
+    private String textur;
 
     private ArrayList<Verzauberung> verzauberungen= new ArrayList<Verzauberung>();
 
@@ -26,12 +27,13 @@ public class Rüstung {
      * @param rüstungsPunkte Die Rüstungspunkte, die das Teil bietet
      * @param härte Die Härte des Rüstungsteils
      */
-    public Rüstung(String bezeichnung, String körperteil, String material, int rüstungsPunkte, int härte){
+    public Rüstung(String bezeichnung, String körperteil, String material, int rüstungsPunkte, int härte, String textur){
         this.bezeichnung = bezeichnung;
         this.körperteil = körperteil;
         this.material = material;
         this.rüstungsPunkte = rüstungsPunkte;
         this.härte = härte;
+        this.textur = textur;
     }
 
     /**
@@ -69,6 +71,9 @@ public class Rüstung {
 
     public int getHärte() {
         return härte;
+    }
+    public String getTextur() {
+        return textur;
     }
 
     public ArrayList<Verzauberung> getVerzauberungen() {

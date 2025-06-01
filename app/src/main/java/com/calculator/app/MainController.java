@@ -1,5 +1,6 @@
 package com.calculator.app;
 
+import dao.RüstungDAO;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.ActionEvent;
@@ -14,8 +15,10 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import model.Rüstung;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -76,10 +79,16 @@ public class MainController implements Initializable {
 
         generateInventory();
 
-        helmets = generateArmorTiles(7, inventoryContent, helmetsGroup);
-        chestplates = generateArmorTiles(6, inventoryContent, chestplatesGroup);
-        leggings = generateArmorTiles(5, inventoryContent, leggingsGroup);
-        boots = generateArmorTiles(4, inventoryContent, bootsGroup);
+        RüstungDAO rüstungDAO = new RüstungDAO();
+
+        try {
+            helmets = generateArmorTiles(rüstungDAO.getAllRüstungByTyp("Helm"), inventoryContent, helmetsGroup);
+            chestplates = generateArmorTiles(rüstungDAO.getAllRüstungByTyp("Brustplatte"), inventoryContent, chestplatesGroup);
+            leggings = generateArmorTiles(rüstungDAO.getAllRüstungByTyp("Hose"), inventoryContent, leggingsGroup);
+            boots = generateArmorTiles(rüstungDAO.getAllRüstungByTyp("Schuhe"), inventoryContent, bootsGroup);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         armorSelectionGroup.selectedToggleProperty().addListener((obs, oldSel, newSel) -> {
             armorInv.getChildren().clear();
@@ -199,7 +208,7 @@ public class MainController implements Initializable {
         });
     }
 
-    private ArrayList<Group> generateArmorTiles(int tileCount, Pane outerContainer, ToggleGroup group) {
+    private ArrayList<Group> generateArmorTiles(ArrayList<Rüstung> rüstungen, Pane outerContainer, ToggleGroup group) {
         ArrayList<Group> armorType= new ArrayList<Group>();
         Image basicTile = new Image(getClass().getResource("/res/tile.png").toExternalForm());
 
@@ -210,15 +219,25 @@ public class MainController implements Initializable {
             return Math.min(w, h);
         }, outerContainer.widthProperty(), outerContainer.heightProperty());
 
-        for (int i = 0; i < tileCount; i++) {
-            ImageView image = new ImageView(); // Reuse same image
+        for (Rüstung rüstung : rüstungen) {
+            ImageView tileImage = new ImageView(); // Reuse same tileImage
 
-            image.setImage(basicTile);
-            image.setPreserveRatio(true);
-            image.setSmooth(false);
+            tileImage.setImage(basicTile);
+            tileImage.setPreserveRatio(true);
+            tileImage.setSmooth(false);
 
-            image.fitWidthProperty().bind(tileSize);
-            image.fitHeightProperty().bind(tileSize);
+            tileImage.fitWidthProperty().bind(tileSize);
+            tileImage.fitHeightProperty().bind(tileSize);
+
+            ImageView rüstungImage = new ImageView(new Image(getClass().getResource(rüstung.getTextur()).toExternalForm()));
+            rüstungImage.setPreserveRatio(true);
+            rüstungImage.setSmooth(false);
+
+            rüstungImage.fitWidthProperty().bind(tileSize);
+            rüstungImage.fitHeightProperty().bind(tileSize);
+
+            tileImage.fitWidthProperty().bind(tileSize);
+            tileImage.fitHeightProperty().bind(tileSize);
 
             RadioButton button = new RadioButton();
             button.setToggleGroup(group);
@@ -233,7 +252,7 @@ public class MainController implements Initializable {
             button.prefHeightProperty().bind(tileSize);
             button.maxHeightProperty().bind(tileSize);
 
-            Group tile = new Group(image, button);
+            Group tile = new Group(tileImage, rüstungImage, button);
             armorType.add(tile);
         }
         return armorType;

@@ -29,19 +29,19 @@
 
                 <StackPane>
 
-                    <Button fx:id="imageButton1" />
+                    <Button fx:id="weaponButton" />
                 </StackPane>
                 <StackPane>
 
-                    <Button fx:id="imageButton2" />
+                    <Button fx:id="entityButton" />
                 </StackPane>
                 <StackPane>
 
-                    <Button fx:id="imageButton3" />
+                    <Button fx:id="armorButton" />
                 </StackPane>
                 <StackPane>
 
-                    <Button fx:id="imageButton4" />
+                    <Button fx:id="optionsButton" />
                 </StackPane>
 
             </VBox>

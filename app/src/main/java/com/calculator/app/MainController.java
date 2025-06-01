@@ -20,11 +20,12 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
-    public StackPane mobSelector;
     @FXML private VBox vBox;
     @FXML private GridPane gridPane;
     @FXML private ImageView background;
     @FXML private ImageView logo;
+
+    @FXML public StackPane mobSelector;
     @FXML private ImageView mobWindow;
     @FXML private ImageView mobWindowMob;
     @FXML private ImageView inventoryBg;
@@ -46,7 +47,13 @@ public class MainController implements Initializable {
     @FXML private Button entityButton;
     @FXML private Button armorButton;
     @FXML private Button optionsButton;
+    @FXML public Button calculateButton;
 
+    private ToggleGroup armorSelectionGroup = new ToggleGroup();
+    private ArrayList<Group> helmets;
+    private ArrayList<Group> chestplates;
+    private ArrayList<Group> leggings;
+    private ArrayList<Group> boots;
     private ToggleGroup helmetsGroup;
     private ToggleGroup chestplatesGroup;
     private ToggleGroup leggingsGroup;
@@ -69,9 +76,33 @@ public class MainController implements Initializable {
 
         generateInventory();
 
-        generateArmorTiles(7, inventoryContent, armorInv, helmetsGroup);
+        helmets = generateArmorTiles(7, inventoryContent, helmetsGroup);
+        chestplates = generateArmorTiles(6, inventoryContent, chestplatesGroup);
+        leggings = generateArmorTiles(5, inventoryContent, leggingsGroup);
+        boots = generateArmorTiles(4, inventoryContent, bootsGroup);
 
-        generateArmorButtons(inventoryContent, armorSelector);
+        armorSelectionGroup.selectedToggleProperty().addListener((obs, oldSel, newSel) -> {
+            armorInv.getChildren().clear();
+            switch (armorSelectionGroup.getToggles().indexOf(armorSelectionGroup.getSelectedToggle())) {
+                case 0:
+                    armorInv.getChildren().addAll(helmets);
+                    break;
+                case 1:
+                    armorInv.getChildren().addAll(chestplates);
+                    break;
+                case 2:
+                    armorInv.getChildren().addAll(leggings);
+                    break;
+                case 3:
+                    armorInv.getChildren().addAll(boots);
+                    break;
+                default:
+                    System.out.println("nothing there :(");
+                    break;
+            }
+        });
+
+        generateArmorButtons(inventoryContent, armorSelector, armorSelectionGroup);
     }
 
     private void centerVBox() {
@@ -168,7 +199,8 @@ public class MainController implements Initializable {
         });
     }
 
-    private void generateArmorTiles(int tileCount, Pane outerContainer, Pane innerContainer, ToggleGroup group) {
+    private ArrayList<Group> generateArmorTiles(int tileCount, Pane outerContainer, ToggleGroup group) {
+        ArrayList<Group> armorType= new ArrayList<Group>();
         Image basicTile = new Image(getClass().getResource("/res/tile.png").toExternalForm());
 
         double size = 8.0;
@@ -202,13 +234,12 @@ public class MainController implements Initializable {
             button.maxHeightProperty().bind(tileSize);
 
             Group tile = new Group(image, button);
-            innerContainer.getChildren().add(tile);
+            armorType.add(tile);
         }
+        return armorType;
     }
 
-    private void generateArmorButtons(Pane outerContainer, Pane innerContainer) {
-        ToggleGroup group = new ToggleGroup();
-
+    private void generateArmorButtons(Pane outerContainer, Pane innerContainer, ToggleGroup group) {
         Image helmetBtnImg = new Image(getClass().getResource("/res/helmetButton.png").toExternalForm());
         Image chestplateBtnImg = new Image(getClass().getResource("/res/chestplateButton.png").toExternalForm());
         Image leggingsBtnImg = new Image(getClass().getResource("/res/leggingsButton.png").toExternalForm());
@@ -294,6 +325,10 @@ public class MainController implements Initializable {
         configureButtonWithImage(optionsButton, "/res/optionsButton.png", e -> {
             // Your optionsButton logic here
             System.out.println("Options button clicked");
+        });
+
+        configureButtonWithImage(calculateButton, "/res/calculateButton.png", e -> {
+            System.out.println("Calculate button clicked");
         });
     }
 

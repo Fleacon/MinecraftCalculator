@@ -43,7 +43,9 @@
 
                     <Button fx:id="optionsButton" />
                 </StackPane>
-
+                <StackPane>
+                    <Button fx:id="calculateButton" />
+                </StackPane>
             </VBox>
 
             <StackPane fx:id="mobSelector" GridPane.columnIndex="1" style="-fx-border-color: white">

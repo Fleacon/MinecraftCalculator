@@ -5,6 +5,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import com.calculator.app.WrappedImageView?>
+<?import javafx.scene.control.Label?>
 <StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.calculator.app.MainController">
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
@@ -55,6 +56,9 @@
                     <Button fx:id="zombieButton" ></Button>
                     <Button fx:id="skeletonButton" ></Button>
                 </HBox>
+                <Label fx:id="trollText" text="Leck Eier" style="-fx-text-fill: #00ff00; -fx-font-size: 54px;" >
+
+                </Label>
             </StackPane>
 
             <StackPane GridPane.columnIndex="2">

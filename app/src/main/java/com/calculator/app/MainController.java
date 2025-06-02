@@ -61,6 +61,8 @@ public class MainController implements Initializable {
 
     @FXML private Label trollText;
 
+    public boolean ka = true;
+
     private ToggleGroup armorSelectionGroup = new ToggleGroup();
     private ArrayList<Group> helmets;
     private ArrayList<Group> chestplates;
@@ -93,10 +95,9 @@ public class MainController implements Initializable {
         trollText.setVisible(false);
 
         optionsButton.setOnAction(e ->{
-            boolean ka = true;
             if (ka) {
                 ka = false;
-                PauseTransition pause2 = new PauseTransition(Duration.seconds(1.5));
+                PauseTransition pause2 = new PauseTransition(Duration.seconds(1));
                 pause2.setOnFinished(event2 -> {
                     trollText.setVisible(true);
                     Stage stage = (Stage) optionsButton.getScene().getWindow();

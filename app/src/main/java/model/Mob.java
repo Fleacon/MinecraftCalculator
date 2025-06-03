@@ -32,6 +32,13 @@ public class Mob {
         this.mobTyp = mobTyp;
     }
 
+    public Mob(Mob mob) {
+        this.bezeichnung = mob.getBezeichnung();
+        this.hp = mob.getHp();
+        this.basisRüstungsPunkte = mob.getBasisRüstungsPunkte();
+        this.mobTyp = mob.getMobTyp();
+    }
+
     /**
      * Fügt dem Mob einen Effekt hinzu.
      *

@@ -22,11 +22,12 @@ public class WaffeDAO {
      * @throws SQLException Bei Datenbankfehlern
      */
     public Waffe getWaffeByID(int id) throws SQLException {
-        String sql = "SELECT Waffe.bezeichnung AS waffenbezeichnung, schaden, Material.bezeichnung AS material, Waffentyp.typ AS typ\n" +
-                "FROM Waffe \n" +
-                "JOIN Material USING(materialID)\n" +
-                "JOIN Waffentyp USING(waffentypID)\n" +
-                "WHERE waffeID = ?\n";
+        String sql = "SELECT Waffe.bezeichnung AS waffenbezeichnung, schaden, Material.bezeichnung AS material, " +
+                "Waffentyp.typ AS typ, textur " +
+                "FROM Waffe " +
+                "JOIN Material USING(materialID) " +
+                "JOIN Waffentyp USING(waffentypID) " +
+                "WHERE waffeID = ?";
         try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -45,11 +46,12 @@ public class WaffeDAO {
      * @throws SQLException Bei Datenbankfehlern
      */
     public Waffe getWaffeByBezeichnung(String bez) throws SQLException {
-        String sql = "SELECT Waffe.bezeichnung AS waffenbezeichnung, schaden, Material.bezeichnung AS material, Waffentyp.typ AS typ\n" +
-                "FROM Waffe \n" +
-                "JOIN Material USING(materialID)\n" +
-                "JOIN Waffentyp USING(waffentypID)\n" +
-                "WHERE Waffe.bezeichnung = ?\n";
+        String sql = "SELECT Waffe.bezeichnung AS waffenbezeichnung, schaden, Material.bezeichnung AS material, " +
+                "Waffentyp.typ AS typ, textur " +
+                "FROM Waffe " +
+                "JOIN Material USING(materialID) " +
+                "JOIN Waffentyp USING(waffentypID) " +
+                "WHERE Waffe.bezeichnung = ?";
         try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {
             stmt.setString(1, bez);
             ResultSet rs = stmt.executeQuery();
@@ -67,18 +69,19 @@ public class WaffeDAO {
      * @throws SQLException Bei Datenbankfehlern
      */
     public ArrayList<Waffe> getAllWaffen() throws SQLException {
-        String sql = "SELECT Waffe.bezeichnung AS waffenbezeichnung, schaden, Material.bezeichnung AS material, Waffentyp.typ AS typ\n" +
-                "FROM Waffe\n"+
-                "JOIN Material USING(materialID)\n" +
-                "JOIN Waffentyp USING(waffentypID)\n";
+        String sql = "SELECT Waffe.bezeichnung AS waffenbezeichnung, schaden, Material.bezeichnung AS material, " +
+                "Waffentyp.typ AS typ, textur " +
+                "FROM Waffe " +
+                "JOIN Material USING(materialID) " +
+                "JOIN Waffentyp USING(waffentypID)";
         ArrayList<Waffe> waffen = new ArrayList<>();
         try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 waffen.add(readAndCreate(rs));
             }
-            return waffen;
         }
+        return waffen;
     }
 
     /**
@@ -93,6 +96,7 @@ public class WaffeDAO {
         String typ = rs.getString("typ");
         int schaden = rs.getInt("schaden");
         String material = rs.getString("material");
-        return new Waffe(bezeichnung, typ, material, schaden);
+        String textur = rs.getString("textur");
+        return new Waffe(bezeichnung, typ, material, schaden, textur);
     }
 }

@@ -1,5 +1,6 @@
 package com.calculator.app;
 
+import dao.MobDAO;
 import dao.RüstungDAO;
 import dao.WaffeDAO;
 
@@ -132,27 +133,6 @@ public class MainController implements Initializable {
         RüstungDAO rüstungDAO = new RüstungDAO();
 
         trollText.setVisible(false);
-
-        optionsButton.setOnAction(e ->{
-            if (ka) {
-                ka = false;
-                PauseTransition pause2 = new PauseTransition(Duration.seconds(1));
-                pause2.setOnFinished(event2 -> {
-                    trollText.setVisible(true);
-                    Stage stage = (Stage) optionsButton.getScene().getWindow();
-                    Media sound = new Media(getClass().getResource("/res/ehhehehe.mp3").toExternalForm());
-                    MediaPlayer mediaPlayer = new MediaPlayer(sound);
-                    mediaPlayer.play();
-                    PauseTransition pause = new PauseTransition(Duration.seconds(2.5));
-                    pause.setOnFinished(event -> {
-                        stage.close();
-                    });
-                    pause.play();
-                });
-                pause2.play();
-            }
-        });
-
 
         try {
             helmetsModels = rüstungDAO.getAllRüstungByTyp("Helm");
@@ -409,8 +389,6 @@ public class MainController implements Initializable {
         entityMobSelection.maxHeightProperty().bind(mobSelector.widthProperty().multiply(0.6*(1/mobSelRatio)));
 
         mobWindow.setImage(new Image(getClass().getResource("/res/mobWindow.png").toExternalForm()));
-
-        mobWindowMob.setImage(zombie);
         mobWindowMob.fitWidthProperty().bind(mobWindow.fitWidthProperty().multiply(0.6));
         mobWindowMob.fitHeightProperty().bind(mobWindow.fitHeightProperty().multiply(0.6));
     }
@@ -448,14 +426,26 @@ public class MainController implements Initializable {
 
         entityMobSelection.setVisible(false);
 
+        MobDAO mobDAO = new MobDAO();
+
         skeletonButton.setOnAction(e ->{
             System.out.println("Skelett");
             mobWindowMob.setImage(skeleton);
+            try {
+                connector.setCurrentMob(mobDAO.getMobByBezeichnung("Skelett"));
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
         zombieButton.setOnAction(e ->{
             System.out.println("Zombie");
             mobWindowMob.setImage(zombie);
+            try {
+                connector.setCurrentMob(mobDAO.getMobByBezeichnung("Zombie"));
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         });
     }
 
@@ -691,10 +681,28 @@ public class MainController implements Initializable {
         configureButtonWithImage(optionsButton, "/res/optionsButton.png", e -> {
             // Your optionsButton logic here
             System.out.println("Options button clicked");
+            if (ka) {
+                ka = false;
+                PauseTransition pause2 = new PauseTransition(Duration.seconds(1));
+                pause2.setOnFinished(event2 -> {
+                    trollText.setVisible(true);
+                    Stage stage = (Stage) optionsButton.getScene().getWindow();
+                    Media sound = new Media(getClass().getResource("/res/ehhehehe.mp3").toExternalForm());
+                    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                    mediaPlayer.play();
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2.5));
+                    pause.setOnFinished(event -> {
+                        stage.close();
+                    });
+                    pause.play();
+                });
+                pause2.play();
+            }
         });
 
         configureButtonWithImage(calculateButton, "/res/calculateButton.png", e -> {
             System.out.println("Calculate button clicked");
+            System.out.println(connector.calculateDamage());
         });
     }
 

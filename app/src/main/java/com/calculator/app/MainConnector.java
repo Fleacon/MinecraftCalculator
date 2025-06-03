@@ -3,6 +3,7 @@ package com.calculator.app;
 import model.*;
 
 public class MainConnector {
+
     private Mob currentMob;
     private Waffe weapon;
     private Rüstung helmet;
@@ -59,5 +60,25 @@ public class MainConnector {
             System.out.println("Schuhe ausgezogen");
         }
         this.boots = boots;
+    }
+
+    public double calculateDamage() {
+        if (currentMob == null) {
+            throw new IllegalStateException("Mob wurde nicht gesetzt.");
+        }
+
+        // Create new player and assign weapon
+        Player player = new Player();
+        player.waffeWechseln(weapon);
+
+        // Clone the mob if you don't want to modify the original
+        Mob mobCopy = new Mob(currentMob); // Assumes a copy constructor exists
+        if (helmet != null) mobCopy.rüstungAnlegen(helmet);
+        if (chestplate != null) mobCopy.rüstungAnlegen(chestplate);
+        if (leggings != null) mobCopy.rüstungAnlegen(leggings);
+        if (boots != null) mobCopy.rüstungAnlegen(boots);
+
+        Rechner rechner = new Rechner(mobCopy, player);
+        return rechner.berechneSchaden();
     }
 }

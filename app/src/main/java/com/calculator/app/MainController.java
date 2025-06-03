@@ -2,6 +2,24 @@ package com.calculator.app;
 
 import dao.RüstungDAO;
 import dao.WaffeDAO;
+
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import model.Rüstung;
+import model.Waffe;
+
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import javafx.animation.PauseTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.ActionEvent;
@@ -12,22 +30,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import model.Rüstung;
-import model.Waffe;
 
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 
 public class MainController implements Initializable {
     @FXML private VBox vBox;
@@ -64,6 +70,10 @@ public class MainController implements Initializable {
     @FXML private Button armorButton;
     @FXML private Button optionsButton;
     @FXML public Button calculateButton;
+
+    @FXML private Label trollText;
+
+    public boolean ka = true;
 
     private ToggleGroup armorSelectionGroup = new ToggleGroup();
     private ArrayList<Group> helmets;
@@ -120,6 +130,29 @@ public class MainController implements Initializable {
         generateInventory();
 
         RüstungDAO rüstungDAO = new RüstungDAO();
+
+        trollText.setVisible(false);
+
+        optionsButton.setOnAction(e ->{
+            if (ka) {
+                ka = false;
+                PauseTransition pause2 = new PauseTransition(Duration.seconds(1));
+                pause2.setOnFinished(event2 -> {
+                    trollText.setVisible(true);
+                    Stage stage = (Stage) optionsButton.getScene().getWindow();
+                    Media sound = new Media(getClass().getResource("/res/ehhehehe.mp3").toExternalForm());
+                    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                    mediaPlayer.play();
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2.5));
+                    pause.setOnFinished(event -> {
+                        stage.close();
+                    });
+                    pause.play();
+                });
+                pause2.play();
+            }
+        });
+
 
         try {
             helmetsModels = rüstungDAO.getAllRüstungByTyp("Helm");

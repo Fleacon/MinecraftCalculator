@@ -56,6 +56,9 @@
                     <Button fx:id="zombieButton" ></Button>
                     <Button fx:id="skeletonButton" ></Button>
                 </HBox>
+                <Label fx:id="trollText" text="Leck Eier" style="-fx-text-fill: #00ff00; -fx-font-size: 54px;" >
+
+                </Label>
             </StackPane>
 
             <StackPane GridPane.columnIndex="2" fx:id="armorBar" style="-fx-border-color: white" alignment="CENTER">

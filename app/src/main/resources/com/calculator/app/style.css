@@ -38,3 +38,8 @@
 .button:hover {
     -fx-background-color: rgba(250, 250, 250, 0.5);
 }
+
+#calcSolution {
+    -fx-border-color: rgb(250, 250, 250);
+    -fx-background-color: black;
+}

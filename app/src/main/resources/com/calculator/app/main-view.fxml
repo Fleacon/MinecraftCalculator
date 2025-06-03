@@ -5,6 +5,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import com.calculator.app.WrappedImageView?>
+<?import javafx.scene.control.Label?>
 <StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.calculator.app.MainController">
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
@@ -57,18 +58,18 @@
                 </HBox>
             </StackPane>
 
-            <StackPane GridPane.columnIndex="2">
-
+            <StackPane GridPane.columnIndex="2" fx:id="armorBar" style="-fx-border-color: white" alignment="CENTER">
+                <WrappedImageView fx:id="armorBarBg" StackPane.alignment="CENTER"/>
+                <VBox fx:id="armorBarContent" alignment="CENTER" style="-fx-border-color: black"/>
             </StackPane>
+
             <StackPane GridPane.columnIndex="3" fx:id="inventory">
                 <WrappedImageView fx:id="inventoryBg" StackPane.alignment="CENTER"/>
                 <Pane fx:id="inventoryContainer" StackPane.alignment="CENTER">
-                    <VBox fx:id="inventoryContent" VBox.vgrow="ALWAYS" StackPane.alignment="CENTER" style="-fx-border-color: orange">
+                    <VBox fx:id="inventoryContent" VBox.vgrow="ALWAYS" StackPane.alignment="CENTER" alignment="CENTER" fillWidth="false" style="-fx-border-color: orange">
                         <padding>
                             <Insets topRightBottomLeft="15"/>
                         </padding>
-                        <HBox fx:id="armorSelector" alignment="CENTER" minHeight="75" style="-fx-border-color: blue" spacing="5"/>
-                        <HBox fx:id="armorInv" spacing="0" alignment="CENTER" style="-fx-border-color: black" VBox.vgrow="ALWAYS" />
                     </VBox>
                 </Pane>
             </StackPane>

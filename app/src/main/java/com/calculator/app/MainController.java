@@ -1,6 +1,7 @@
 package com.calculator.app;
 
 import dao.RüstungDAO;
+import dao.WaffeDAO;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.ActionEvent;
@@ -8,18 +9,24 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import model.Rüstung;
+import model.Waffe;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -28,16 +35,22 @@ public class MainController implements Initializable {
     @FXML private ImageView background;
     @FXML private ImageView logo;
 
-    @FXML public StackPane mobSelector;
+    @FXML private StackPane mobSelector;
     @FXML private ImageView mobWindow;
     @FXML private ImageView mobWindowMob;
     @FXML private ImageView inventoryBg;
 
+    @FXML private StackPane armorBar;
+    @FXML private WrappedImageView armorBarBg;
+    @FXML private VBox armorBarContent;
+
     @FXML private StackPane inventory;
     @FXML private Pane inventoryContainer;
     @FXML private VBox inventoryContent;
-    @FXML private HBox armorSelector;
-    @FXML private HBox armorInv;
+    private HBox armorSelector = new HBox();
+    private HBox armorInv = new HBox();
+
+    private TilePane weaponInv = new TilePane();
 
     @FXML private HBox entityMobSelection;
 
@@ -57,13 +70,24 @@ public class MainController implements Initializable {
     private ArrayList<Group> chestplates;
     private ArrayList<Group> leggings;
     private ArrayList<Group> boots;
-    private ToggleGroup helmetsGroup;
-    private ToggleGroup chestplatesGroup;
-    private ToggleGroup leggingsGroup;
-    private ToggleGroup bootsGroup;
+    private ArrayList<Rüstung> helmetsModels = new ArrayList<>();
+    private ArrayList<Rüstung> chestplatesModels = new ArrayList<>();
+    private ArrayList<Rüstung> leggingsModels = new ArrayList<>();
+    private ArrayList<Rüstung> bootsModels = new ArrayList<>();
+    private ToggleGroup helmetsGroup = new ToggleGroup();
+    private ToggleGroup chestplatesGroup = new ToggleGroup();
+    private ToggleGroup leggingsGroup = new ToggleGroup();
+    private ToggleGroup bootsGroup = new ToggleGroup();
 
+    private ArrayList<Group> weapons = new ArrayList<>();
+    private ArrayList<Waffe> weaponsModels = new ArrayList<>();
+    private ToggleGroup weaponsGroup = new ToggleGroup();
+
+    ArrayList<ImageView> overlayViews = new ArrayList<ImageView>();
     Image zombie = new Image(getClass().getResource("/res/zombie.png").toExternalForm());
     Image skeleton = new Image(getClass().getResource("/res/skeleton.png").toExternalForm());
+
+    private MainConnector connector = new MainConnector();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,9 +95,25 @@ public class MainController implements Initializable {
         logo.setImage(new Image(getClass().getResource("/res/logo.png").toExternalForm()));
         logo.fitHeightProperty().bind(vBox.heightProperty().multiply(0.25));
 
+        armorSelector.setAlignment(Pos.CENTER);
+        armorSelector.setMinHeight(75);
+        armorSelector.setSpacing(5);
+
+        armorInv.setSpacing(0);
+        armorInv.setAlignment(Pos.CENTER);
+        armorInv.setStyle("-fx-border-color: black");
+        VBox.setVgrow(armorInv, Priority.ALWAYS);
+
+        weaponInv.setAlignment(Pos.CENTER);
+        weaponInv.setStyle("-fx-border-color: black");
+        weaponInv.setPrefColumns(6);
+        VBox.setVgrow(weaponInv, Priority.ALWAYS);
+
         generateUserButtons();
 
         setupMobSelectionBackground();
+
+        generateArmorBar(armorBar, armorBarContent);
 
         generateMobEggs();
 
@@ -82,13 +122,33 @@ public class MainController implements Initializable {
         RüstungDAO rüstungDAO = new RüstungDAO();
 
         try {
-            helmets = generateArmorTiles(rüstungDAO.getAllRüstungByTyp("Helm"), inventoryContent, helmetsGroup);
-            chestplates = generateArmorTiles(rüstungDAO.getAllRüstungByTyp("Brustplatte"), inventoryContent, chestplatesGroup);
-            leggings = generateArmorTiles(rüstungDAO.getAllRüstungByTyp("Hose"), inventoryContent, leggingsGroup);
-            boots = generateArmorTiles(rüstungDAO.getAllRüstungByTyp("Schuhe"), inventoryContent, bootsGroup);
+            helmetsModels = rüstungDAO.getAllRüstungByTyp("Helm");
+            chestplatesModels = rüstungDAO.getAllRüstungByTyp("Brustplatte");
+            leggingsModels = rüstungDAO.getAllRüstungByTyp("Hose");
+            bootsModels = rüstungDAO.getAllRüstungByTyp("Schuhe");
+
+            helmets = generateArmorTiles(helmetsModels, inventoryContent, helmetsGroup);
+            chestplates = generateArmorTiles(chestplatesModels, inventoryContent, chestplatesGroup);
+            leggings = generateArmorTiles(leggingsModels, inventoryContent, leggingsGroup);
+            boots = generateArmorTiles(bootsModels, inventoryContent, bootsGroup);
+
+            setupArmorGroupListeners();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        WaffeDAO waffeDAO = new WaffeDAO();
+
+        try {
+            weaponsModels = waffeDAO.getAllWaffen();
+            weapons = generateWeaponTiles(weaponsModels, inventoryContent, weaponsGroup);
+
+            setupWeaponGroupListener(weaponsGroup, weaponsModels);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        weaponInv.getChildren().addAll(weapons);
 
         armorSelectionGroup.selectedToggleProperty().addListener((obs, oldSel, newSel) -> {
             armorInv.getChildren().clear();
@@ -130,6 +190,8 @@ public class MainController implements Initializable {
     private void generateInventory() {
         Image invBgImg = new Image(getClass().getResource("/res/inv_Window.png").toExternalForm());
         inventoryBg.setImage(invBgImg);
+        inventoryBg.setFitHeight(0);
+        inventoryBg.setFitWidth(0);
         double invRatio = invBgImg.getWidth() / invBgImg.getHeight();
 
         inventoryContent.prefWidthProperty().bind(inventoryContainer.widthProperty());
@@ -140,6 +202,161 @@ public class MainController implements Initializable {
         inventoryContent.widthProperty().addListener((obs, oldVal, newVal) -> centerVBox());
         inventoryContent.heightProperty().addListener((obs, oldVal, newVal) -> centerVBox());
     }
+
+    private void generateArmorBar(Pane outerContainer, Pane innerContainer) {
+        Image armorBarImg = new Image(getClass().getResource("/res/armorBar.png").toExternalForm());
+
+        armorBarBg.setImage(armorBarImg);
+
+        Image tileImg = new Image(getClass().getResource("/res/tile.png").toExternalForm());
+
+        double size = 1.5;
+        DoubleBinding tileSize = Bindings.createDoubleBinding(() -> {
+            double w = outerContainer.getWidth() / size;
+            double h = outerContainer.getHeight() / size;
+            return Math.min(w, h);
+        }, outerContainer.widthProperty(), outerContainer.heightProperty());
+
+        Image headOverlay = new Image(getClass().getResource("/res/headOverlay.png").toExternalForm());
+        Image chestOverlay = new Image(getClass().getResource("/res/chestOverlay.png").toExternalForm());
+        Image legsOverlay = new Image(getClass().getResource("/res/pantsOverlay.png").toExternalForm());
+        Image bootsOverlay = new Image(getClass().getResource("/res/bootsOverlay.png").toExternalForm());
+
+        ArrayList<Image> list = new ArrayList<>();
+        list.add(headOverlay);
+        list.add(chestOverlay);
+        list.add(legsOverlay);
+        list.add(bootsOverlay);
+
+        for (Image img : list) {
+            ImageView basicTile = new ImageView();
+
+            basicTile.setImage(tileImg);
+            basicTile.setPreserveRatio(true);
+            basicTile.setSmooth(false);
+
+            basicTile.fitWidthProperty().bind(tileSize);
+            basicTile.fitHeightProperty().bind(tileSize);
+
+            ImageView overlay = new ImageView(img);
+            overlay.setPreserveRatio(true);
+            overlay.setSmooth(false);
+
+            overlay.fitWidthProperty().bind(tileSize);
+            overlay.fitHeightProperty().bind(tileSize);
+
+            overlayViews.add(overlay);
+
+            Group tile = new Group(basicTile, overlay);
+            innerContainer.getChildren().add(tile);
+        }
+    }
+
+    private void setupArmorGroupListeners() {
+        setupOverlayListener(helmetsGroup, helmetsModels, "/res/headOverlay.png", 0);    // Head
+        setupOverlayListener(chestplatesGroup, chestplatesModels, "/res/chestOverlay.png",1); // Chest
+        setupOverlayListener(leggingsGroup, leggingsModels, "/res/pantsOverlay.png", 2);     // Legs
+        setupOverlayListener(bootsGroup, bootsModels, "/res/bootsOverlay.png", 3);       // Boots
+    }
+
+    private void setupOverlayListener(ToggleGroup group, ArrayList<Rüstung> rüstungen, String oldOverlayPath, int index) {
+        List<Toggle> toggles = group.getToggles();
+
+        for (int i = 0; i < toggles.size(); i++) {
+            final int toggleIndex = i;
+            Toggle toggle = toggles.get(i);
+
+            // Extra MouseEvent Listener: doppelt geklickt auf das gleiche Toggle
+            if (toggle instanceof Node) {
+                ((Node) toggle).addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+                    if (group.getSelectedToggle() == toggle) {
+                        int selectedIndex = group.getToggles().indexOf(toggle);
+                        if (selectedIndex >= 0 && selectedIndex < rüstungen.size()) {
+                            Rüstung rüstung = rüstungen.get(selectedIndex);
+                            switch (rüstung.getKörperteil()) {
+                                case "Helm":
+                                    connector.setHelmet(null);
+                                    break;
+                                case "Brustplatte":
+                                    connector.setChestplate(null);
+                                    break;
+                                case "Hose":
+                                    connector.setLeggings(null);
+                                    break;
+                                case "Schuhe":
+                                    connector.setBoots(null);
+                                    break;
+                            }
+                        }
+                        // Deselektiere den Toggle
+                        group.selectToggle(null);
+                        // Setze das alte Overlay zurück
+                        Image oldOverlay = new Image(getClass().getResource(oldOverlayPath).toExternalForm());
+                        overlayViews.get(index).setImage(oldOverlay);
+                        event.consume(); // Verhindert, dass der Toggle erneut aktiviert wird
+                    }
+                });
+            }
+        }
+
+        // Standard-Selection-Change-Listener
+        group.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            if (newToggle != null && index < overlayViews.size()) {
+                int selectedIndex = group.getToggles().indexOf(newToggle);
+                if (selectedIndex >= 0 && selectedIndex < rüstungen.size()) {
+                    Rüstung rüstung = rüstungen.get(selectedIndex);
+                    switch (rüstung.getKörperteil()) {
+                        case "Helm":
+                            connector.setHelmet(rüstung);
+                            break;
+                        case "Brustplatte":
+                            connector.setChestplate(rüstung);
+                            break;
+                        case "Hose":
+                            connector.setLeggings(rüstung);
+                            break;
+                        case "Schuhe":
+                            connector.setBoots(rüstung);
+                            break;
+                    }
+                    Image newOverlay = new Image(getClass().getResource(rüstung.getTextur()).toExternalForm());
+                    overlayViews.get(index).setImage(newOverlay);
+                }
+            }
+        });
+    }
+
+    private void setupWeaponGroupListener(ToggleGroup group, ArrayList<Waffe> waffen) {
+        List<Toggle> toggles = group.getToggles();
+
+        for (int i = 0; i < toggles.size(); i++) {
+            final int toggleIndex = i;
+            Toggle toggle = toggles.get(i);
+
+            if (toggle instanceof Node) {
+                ((Node) toggle).addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+                    if (group.getSelectedToggle() == toggle) {
+                        group.selectToggle(null);
+                        connector.setWeapon(null);
+                        event.consume();
+                    }
+                });
+            }
+        }
+
+        // Toggle-Wechsel Listener
+        group.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            if (newToggle != null) {
+                int selectedIndex = group.getToggles().indexOf(newToggle);
+                if (selectedIndex >= 0 && selectedIndex < waffen.size()) {
+                    Waffe waffe = waffen.get(selectedIndex);
+
+                    connector.setWeapon(waffe); // oder: handleWeaponSelected(waffe);
+                }
+            }
+        });
+    }
+
 
     private void setupMobSelectionBackground() {
         Image entityMobselectionImage = new Image(getClass().getResource("/res/entityContainer.png").toExternalForm());
@@ -159,6 +376,7 @@ public class MainController implements Initializable {
         entityMobSelection.maxHeightProperty().bind(mobSelector.widthProperty().multiply(0.6*(1/mobSelRatio)));
 
         mobWindow.setImage(new Image(getClass().getResource("/res/mobWindow.png").toExternalForm()));
+
         mobWindowMob.setImage(zombie);
         mobWindowMob.fitWidthProperty().bind(mobWindow.fitWidthProperty().multiply(0.6));
         mobWindowMob.fitHeightProperty().bind(mobWindow.fitHeightProperty().multiply(0.6));
@@ -212,6 +430,8 @@ public class MainController implements Initializable {
         ArrayList<Group> armorType= new ArrayList<Group>();
         Image basicTile = new Image(getClass().getResource("/res/tile.png").toExternalForm());
 
+        Image armorSelectorImg = new Image(getClass().getResource("/res/armorSelector.png").toExternalForm());
+
         double size = 8.0;
         DoubleBinding tileSize = Bindings.createDoubleBinding(() -> {
             double w = outerContainer.getWidth() / size;
@@ -236,6 +456,16 @@ public class MainController implements Initializable {
             rüstungImage.fitWidthProperty().bind(tileSize);
             rüstungImage.fitHeightProperty().bind(tileSize);
 
+            ImageView selector = new ImageView();
+
+            selector.setImage(armorSelectorImg);
+            selector.setPreserveRatio(true);
+            selector.setSmooth(false);
+            selector.setOpacity(0);
+
+            selector.fitWidthProperty().bind(tileSize);
+            selector.fitHeightProperty().bind(tileSize);
+
             tileImage.fitWidthProperty().bind(tileSize);
             tileImage.fitHeightProperty().bind(tileSize);
 
@@ -252,10 +482,90 @@ public class MainController implements Initializable {
             button.prefHeightProperty().bind(tileSize);
             button.maxHeightProperty().bind(tileSize);
 
-            Group tile = new Group(tileImage, rüstungImage, button);
+            Group tile = new Group(tileImage, selector, rüstungImage, button);
             armorType.add(tile);
+
+            button.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+                if (isNowSelected) {
+                    selector.setOpacity(1);
+                } else {
+                    selector.setOpacity(0);
+                }
+            });
         }
         return armorType;
+    }
+
+    private ArrayList<Group> generateWeaponTiles(ArrayList<Waffe> waffen, Pane outerContainer, ToggleGroup group) {
+        ArrayList<Group> weaponList = new ArrayList<Group>();
+        Image basicTile = new Image(getClass().getResource("/res/tile.png").toExternalForm());
+
+        Image armorSelectorImg = new Image(getClass().getResource("/res/armorSelector.png").toExternalForm());
+
+        double size = 8.0;
+        DoubleBinding tileSize = Bindings.createDoubleBinding(() -> {
+            double w = outerContainer.getWidth() / size;
+            double h = outerContainer.getHeight() / size;
+            return Math.min(w, h);
+        }, outerContainer.widthProperty(), outerContainer.heightProperty());
+
+        weaponInv.prefWidthProperty().bind(tileSize.multiply(7));
+
+        for (Waffe waffe : waffen) {
+            ImageView tileImage = new ImageView(); // Reuse same tileImage
+
+            tileImage.setImage(basicTile);
+            tileImage.setPreserveRatio(true);
+            tileImage.setSmooth(false);
+
+            tileImage.fitWidthProperty().bind(tileSize);
+            tileImage.fitHeightProperty().bind(tileSize);
+
+            ImageView rüstungImage = new ImageView(new Image(getClass().getResource(waffe.getTextur()).toExternalForm()));
+            rüstungImage.setPreserveRatio(true);
+            rüstungImage.setSmooth(false);
+
+            rüstungImage.fitWidthProperty().bind(tileSize);
+            rüstungImage.fitHeightProperty().bind(tileSize);
+
+            tileImage.fitWidthProperty().bind(tileSize);
+            tileImage.fitHeightProperty().bind(tileSize);
+
+            ImageView selector = new ImageView();
+
+            selector.setImage(armorSelectorImg);
+            selector.setPreserveRatio(true);
+            selector.setSmooth(false);
+            selector.setOpacity(0);
+
+            selector.fitWidthProperty().bind(tileSize);
+            selector.fitHeightProperty().bind(tileSize);
+
+            RadioButton button = new RadioButton();
+            button.setToggleGroup(group);
+            button.setOpacity(0);
+            button.setPadding(Insets.EMPTY);
+
+            button.minWidthProperty().bind(tileSize);
+            button.prefWidthProperty().bind(tileSize);
+            button.maxWidthProperty().bind(tileSize);
+
+            button.minHeightProperty().bind(tileSize);
+            button.prefHeightProperty().bind(tileSize);
+            button.maxHeightProperty().bind(tileSize);
+
+            Group tile = new Group(tileImage, selector, rüstungImage, button);
+            weaponList.add(tile);
+
+            button.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+                if (isNowSelected) {
+                    selector.setOpacity(1);
+                } else {
+                    selector.setOpacity(0);
+                }
+            });
+        }
+        return weaponList;
     }
 
     private void generateArmorButtons(Pane outerContainer, Pane innerContainer, ToggleGroup group) {
@@ -329,6 +639,8 @@ public class MainController implements Initializable {
         configureButtonWithImage(weaponButton, "/res/weaponButton.png", e -> {
             // Your weaponButton logic here
             System.out.println("Weapon button clicked");
+            inventoryContent.getChildren().clear();
+            inventoryContent.getChildren().addAll(weaponInv);
         });
 
         configureButtonWithImage(entityButton, "/res/entityButton.png", e -> {
@@ -339,6 +651,8 @@ public class MainController implements Initializable {
         configureButtonWithImage(armorButton, "/res/armorButton.png", e -> {
             // Your armorButton logic here
             System.out.println("Armor button clicked");
+            inventoryContent.getChildren().clear();
+            inventoryContent.getChildren().addAll(armorSelector, armorInv);
         });
 
         configureButtonWithImage(optionsButton, "/res/optionsButton.png", e -> {
@@ -354,6 +668,8 @@ public class MainController implements Initializable {
     private void configureButtonWithImage(Button button, String imagePath, EventHandler<ActionEvent> onClick) {
         Image image = new Image(getClass().getResource(imagePath).toExternalForm());
         ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(0);
+        imageView.setFitHeight(0);
         imageView.setPreserveRatio(true);
 
         button.setGraphic(imageView);

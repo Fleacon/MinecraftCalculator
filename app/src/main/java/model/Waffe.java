@@ -15,6 +15,8 @@ public class Waffe {
     private int schaden;
     private ArrayList<Verzauberung> verzauberungen = new ArrayList<Verzauberung>();
 
+    private String textur;
+
     /**
      * Erstellt eine neue Waffe mit den angegebenen Eigenschaften.
      *
@@ -23,11 +25,12 @@ public class Waffe {
      * @param material Das Material, aus dem die Waffe besteht
      * @param schaden Der Basisschaden der Waffe
      */
-    public Waffe(String bezeichnung, String waffentyp, String material, int schaden) {
+    public Waffe(String bezeichnung, String waffentyp, String material, int schaden, String textur) {
         this.bezeichnung = bezeichnung;
         this.waffentyp = waffentyp;
         this.material = material;
         this.schaden = schaden;
+        this.textur = textur;
     }
 
     /**
@@ -56,6 +59,14 @@ public class Waffe {
      */
     public void setVerzauberungen(ArrayList<Verzauberung> verzauberungen) {
         this.verzauberungen = verzauberungen;
+    }
+
+    public String getBezeichnung() {
+        return bezeichnung;
+    }
+
+    public String getTextur() {
+        return textur;
     }
 
     /**

@@ -18,7 +18,7 @@ public class Player {
      * Erstellt einen neuen Spieler mit Standardwerten.
      */
     public Player() {
-        basisSchaden = 1;
+        basisSchaden = 2;
     }
 
     /**
@@ -45,8 +45,9 @@ public class Player {
      * @return Die berechnete Angriffskraft
      */
     public int berechneAngriffskraft(){
-        int angriffskraft = waffe.berechneSchaden();
-        return angriffskraft;
+        if(waffe != null)
+            return waffe.berechneSchaden();
+        return basisSchaden;
     }
 
     public int getBasisSchaden() {

@@ -4,6 +4,8 @@ import dao.MobDAO;
 import dao.RüstungDAO;
 import dao.WaffeDAO;
 
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.binding.StringBinding;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -185,6 +187,143 @@ public class MainController implements Initializable {
         });
 
         generateArmorButtons(inventoryContent, armorSelector, armorSelectionGroup);
+
+        generateSolution();
+    }
+
+    private void generateSolution() {
+        VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setStyle("-fx-border-color: pink");
+
+        vbox.prefWidthProperty().bind(inventoryContent.widthProperty());
+        vbox.prefHeightProperty().bind(inventoryContent.heightProperty());
+
+        HBox mobInfo = new HBox();
+        mobInfo.setAlignment(Pos.CENTER);
+        mobInfo.setSpacing(20);
+        mobInfo.setStyle("-fx-border-color: black");
+
+        mobInfo.prefHeightProperty().bind(inventoryContent.heightProperty().multiply(0.4));
+        mobInfo.maxHeightProperty().bind(inventoryContent.heightProperty().multiply(0.4));
+
+        VBox mobHealthInfo = new VBox();
+        mobHealthInfo.setAlignment(Pos.CENTER);
+        mobHealthInfo.setStyle("-fx-border-color: black");
+
+        VBox mobArmorInfo = new VBox();
+        mobArmorInfo.setAlignment(Pos.CENTER);
+        mobArmorInfo.setStyle("-fx-border-color: black");
+
+        VBox mobToughnessInfo = new VBox();
+        mobToughnessInfo.setAlignment(Pos.CENTER);
+        mobToughnessInfo.setStyle("-fx-border-color: black");
+
+        HBox damageInfo = new HBox();
+        damageInfo.setAlignment(Pos.CENTER);
+        damageInfo.setStyle("-fx-border-color: black");
+
+        damageInfo.prefHeightProperty().bind(inventoryContent.heightProperty().multiply(0.2));
+        damageInfo.maxHeightProperty().bind(inventoryContent.heightProperty().multiply(0.2));
+
+        HBox healthLeftInfo = new HBox();
+        healthLeftInfo.setAlignment(Pos.CENTER);
+        healthLeftInfo.setStyle("-fx-border-color: black");
+
+        healthLeftInfo.prefHeightProperty().bind(inventoryContent.heightProperty().multiply(0.2));
+        healthLeftInfo.maxHeightProperty().bind(inventoryContent.heightProperty().multiply(0.2));
+
+        vbox.getChildren().addAll(mobInfo, damageInfo,healthLeftInfo);
+        mobInfo.getChildren().addAll(mobHealthInfo, mobArmorInfo, mobToughnessInfo);
+
+        double baseIconSize = 50;
+        var imgSize = mobInfo.heightProperty().multiply(0.5);
+        var labelSize = mobInfo.heightProperty().multiply(0.35);
+        StringBinding fontSizeBinding = Bindings.createStringBinding(() -> {
+            double fontSize = mobInfo.getHeight() * 0.15; // adjust the multiplier as needed
+            return String.format("-fx-font-size: %.2fpx;", fontSize);
+        }, mobInfo.heightProperty());
+
+        Image fullHeart = new Image(getClass().getResource("/res/fullHeart.png").toExternalForm());
+        Image armor = new Image(getClass().getResource("/res/armorIcon.png").toExternalForm());
+        Image toughnessArmor = new Image(getClass().getResource("/res/toughnessArmor.png").toExternalForm());
+        Image damageSword = new Image(getClass().getResource("/res/damageSword.png").toExternalForm());
+        Image damageHeart = new Image(getClass().getResource("/res/damageHeart.png").toExternalForm());
+
+        ImageView fullHeartView = new ImageView(fullHeart);
+        fullHeartView.setPreserveRatio(true);
+        fullHeartView.setFitWidth(baseIconSize);
+        fullHeartView.setFitHeight(baseIconSize);
+
+        fullHeartView.fitHeightProperty().bind(imgSize);
+        fullHeartView.fitWidthProperty().bind(imgSize);
+
+        Label hpLabel = new Label();
+        configureLabel(hpLabel, labelSize, fontSizeBinding);
+
+        mobHealthInfo.getChildren().addAll(fullHeartView, hpLabel);
+
+        ImageView armorPointsView = new ImageView(armor);
+        armorPointsView.setPreserveRatio(true);
+        armorPointsView.setFitWidth(baseIconSize);
+        armorPointsView.setFitHeight(baseIconSize);
+
+        armorPointsView.fitHeightProperty().bind(imgSize);
+        armorPointsView.fitWidthProperty().bind(imgSize);
+
+        Label armorLabel = new Label();
+        configureLabel(armorLabel, labelSize, fontSizeBinding);
+
+        mobArmorInfo.getChildren().addAll(armorPointsView, armorLabel);
+
+        ImageView toughnessView = new ImageView(toughnessArmor);
+        toughnessView.setPreserveRatio(true);
+        toughnessView.setFitWidth(baseIconSize);
+        toughnessView.setFitHeight(baseIconSize);
+
+        toughnessView.fitHeightProperty().bind(imgSize);
+        toughnessView.fitWidthProperty().bind(imgSize);
+
+        Label toughnessLabel = new Label();
+        configureLabel(toughnessLabel, labelSize, fontSizeBinding);
+
+        mobToughnessInfo.getChildren().addAll(toughnessView, toughnessLabel);
+
+
+        ImageView damageView = new ImageView(damageSword);
+        damageView.setPreserveRatio(true);
+        damageView.setFitWidth(baseIconSize);
+        damageView.setFitHeight(baseIconSize);
+
+        Label damageLabel = new Label();
+        damageLabel.setAlignment(Pos.CENTER);
+        damageLabel.setText("20");
+        damageLabel.setStyle("-fx-border-color: blue");
+
+        damageInfo.getChildren().addAll(damageView, damageLabel);
+
+        ImageView healthLeftView = new ImageView(damageHeart);
+        healthLeftView.setPreserveRatio(true);
+        healthLeftView.setFitWidth(baseIconSize);
+        healthLeftView.setFitHeight(baseIconSize);
+
+        Label healthLeftLabel = new Label();
+        healthLeftLabel.setAlignment(Pos.CENTER);
+        healthLeftLabel.setText("20");
+        healthLeftLabel.setStyle("-fx-border-color: blue");
+
+        healthLeftInfo.getChildren().addAll(healthLeftView, healthLeftLabel);
+
+        inventoryContent.getChildren().add(vbox);
+    }
+
+    private void configureLabel(Label label, DoubleBinding sizeBinding, StringBinding fontSizeBinding) {
+        label.setText("20");
+        label.setAlignment(Pos.CENTER);
+        label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        label.prefHeightProperty().bind(sizeBinding);
+        label.prefWidthProperty().bind(sizeBinding);
+        label.styleProperty().bind(Bindings.concat("-fx-border-color: blue;", fontSizeBinding));
     }
 
     private void centerVBox() {

@@ -11,7 +11,7 @@ public class DatabaseManager {
     private static final String DB_URL;
 
     static {
-        String basePath = Paths.get("").toAbsolutePath().toString();  // current working directory
+        String basePath = Paths.get("app/src/main/resources/").toAbsolutePath().toString();  // current working directory
         DB_URL = "jdbc:sqlite:" + basePath + "/minecraftDB.sqlite";
     }
 

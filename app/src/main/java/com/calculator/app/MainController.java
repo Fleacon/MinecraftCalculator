@@ -681,7 +681,7 @@ public class MainController implements Initializable {
             return Math.min(w, h);
         }, outerContainer.widthProperty(), outerContainer.heightProperty());
 
-        weaponInv.prefWidthProperty().bind(tileSize.multiply(7));
+        weaponInv.prefWidthProperty().bind(tileSize.multiply(6.5));
 
         for (Waffe waffe : waffen) {
             ImageView tileImage = new ImageView(); // Reuse same tileImage

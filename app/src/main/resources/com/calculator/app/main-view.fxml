@@ -57,7 +57,7 @@
                     <Button fx:id="zombieButton" ></Button>
                     <Button fx:id="skeletonButton" ></Button>
                 </HBox>
-                <Label fx:id="trollText" text="Leck Eier" style="-fx-text-fill: #00ff00; -fx-font-size: 54px;" >
+                <Label fx:id="trollText" text="BYE BYE" style="-fx-text-fill: #00ff00; -fx-font-size: 54px;" >
 
                 </Label>
             </StackPane>

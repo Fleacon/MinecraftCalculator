@@ -3,7 +3,6 @@ package model;
 import model.effekte.Effekt;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Repräsentiert einen Mob im Minecraft-Spiel.
@@ -31,6 +30,13 @@ public class Mob {
         this.hp = hp;
         this.basisRüstungsPunkte = basisRüstungsPunkte;
         this.mobTyp = mobTyp;
+    }
+
+    public Mob(Mob mob) {
+        this.bezeichnung = mob.getBezeichnung();
+        this.hp = mob.getHp();
+        this.basisRüstungsPunkte = mob.getBasisRüstungsPunkte();
+        this.mobTyp = mob.getMobTyp();
     }
 
     /**

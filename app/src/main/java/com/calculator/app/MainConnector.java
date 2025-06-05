@@ -1,6 +1,7 @@
 package com.calculator.app;
 
 import model.*;
+import java.text.DecimalFormat;
 
 public class MainConnector {
 
@@ -62,7 +63,14 @@ public class MainConnector {
         this.boots = boots;
     }
 
-    public double calculateDamage() {
+    public boolean isCalculatable() {
+        if (currentMob == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public double calculateDamageAsDouble() {
         if (currentMob == null) {
             throw new IllegalStateException("Mob wurde nicht gesetzt.");
         }
@@ -79,6 +87,43 @@ public class MainConnector {
         if (boots != null) mobCopy.rüstungAnlegen(boots);
 
         Rechner rechner = new Rechner(mobCopy, player);
-        return rechner.berechneSchaden();
+        double d = rechner.berechneSchaden();
+        return Math.round(d * 100.0) / 100.0;
+    }
+
+    public String calculateDamageAsString() {
+        return String.valueOf(calculateDamageAsDouble());
+    }
+
+    public String getHp() {
+        return String.valueOf(currentMob.getHp());
+    }
+
+    public String getArmorPoints() {
+        Mob mobCopy = new Mob(currentMob);
+        if (helmet != null) mobCopy.rüstungAnlegen(helmet);
+        if (chestplate != null) mobCopy.rüstungAnlegen(chestplate);
+        if (leggings != null) mobCopy.rüstungAnlegen(leggings);
+        if (boots != null) mobCopy.rüstungAnlegen(boots);
+
+        RedWerte rw = mobCopy.berechneSchadensreduktion();
+        return String.valueOf(rw.rüstungspunkte());
+    }
+
+    public String getArmorToughness() {
+        Mob mobCopy = new Mob(currentMob);
+        if (helmet != null) mobCopy.rüstungAnlegen(helmet);
+        if (chestplate != null) mobCopy.rüstungAnlegen(chestplate);
+        if (leggings != null) mobCopy.rüstungAnlegen(leggings);
+        if (boots != null) mobCopy.rüstungAnlegen(boots);
+
+        RedWerte rw = mobCopy.berechneSchadensreduktion();
+        return String.valueOf(rw.härte());
+    }
+
+    public String calculateHealthLeft() {
+        double d = currentMob.getHp() - calculateDamageAsDouble();
+        double r = Math.round(d * 100.0) / 100.0;
+        return String.valueOf(r);
     }
 }

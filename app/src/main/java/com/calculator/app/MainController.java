@@ -4,7 +4,6 @@ import dao.MobDAO;
 import dao.RüstungDAO;
 import dao.WaffeDAO;
 
-import javafx.beans.binding.ObjectBinding;
 import javafx.beans.binding.StringBinding;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -58,8 +57,9 @@ public class MainController implements Initializable {
     @FXML private VBox inventoryContent;
     private HBox armorSelector = new HBox();
     private HBox armorInv = new HBox();
-
     private TilePane weaponInv = new TilePane();
+
+    private VBox resultPage;
 
     @FXML private HBox entityMobSelection;
 
@@ -97,8 +97,18 @@ public class MainController implements Initializable {
     private ToggleGroup weaponsGroup = new ToggleGroup();
 
     ArrayList<ImageView> overlayViews = new ArrayList<ImageView>();
+
+    private Label hpLabel;
+    private Label armorLabel;
+    private Label toughnessLabel;
+    private Label damageLabel;
+    private Label healthLeftLabel;
+
     Image zombie = new Image(getClass().getResource("/res/zombie.png").toExternalForm());
     Image skeleton = new Image(getClass().getResource("/res/skeleton.png").toExternalForm());
+
+    Image zombieHit = new Image(getClass().getResource("/res/skeleton.png").toExternalForm());
+    Image skeletonHit = new Image(getClass().getResource("/res/skeleton.png").toExternalForm());
 
     private MainConnector connector = new MainConnector();
 
@@ -112,15 +122,24 @@ public class MainController implements Initializable {
         armorSelector.setMinHeight(75);
         armorSelector.setSpacing(5);
 
+        armorSelector.prefHeightProperty().bind(inventoryContainer.heightProperty().multiply(0.2));
+
         armorInv.setSpacing(0);
         armorInv.setAlignment(Pos.CENTER);
-        armorInv.setStyle("-fx-border-color: black");
         VBox.setVgrow(armorInv, Priority.ALWAYS);
 
         weaponInv.setAlignment(Pos.CENTER);
-        weaponInv.setStyle("-fx-border-color: black");
         weaponInv.setPrefColumns(6);
         VBox.setVgrow(weaponInv, Priority.ALWAYS);
+
+        MobDAO mobDAO = new MobDAO();
+
+        mobWindowMob.setImage(zombie);
+        try {
+            connector.setCurrentMob(mobDAO.getMobByBezeichnung("Zombie"));
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
 
         generateUserButtons();
 
@@ -187,58 +206,53 @@ public class MainController implements Initializable {
         });
 
         generateArmorButtons(inventoryContent, armorSelector, armorSelectionGroup);
-
-        generateSolution();
+        generateSolutionPage();
     }
 
-    private void generateSolution() {
+    private void generateSolutionPage() {
         VBox vbox = new VBox();
         vbox.setAlignment(Pos.CENTER);
-        vbox.setStyle("-fx-border-color: pink");
 
         vbox.prefWidthProperty().bind(inventoryContent.widthProperty());
         vbox.prefHeightProperty().bind(inventoryContent.heightProperty());
 
         HBox mobInfo = new HBox();
         mobInfo.setAlignment(Pos.CENTER);
-        mobInfo.setSpacing(20);
-        mobInfo.setStyle("-fx-border-color: black");
 
         mobInfo.prefHeightProperty().bind(inventoryContent.heightProperty().multiply(0.4));
         mobInfo.maxHeightProperty().bind(inventoryContent.heightProperty().multiply(0.4));
+        mobInfo.spacingProperty().bind(mobInfo.widthProperty().multiply(0.05));
 
         VBox mobHealthInfo = new VBox();
         mobHealthInfo.setAlignment(Pos.CENTER);
-        mobHealthInfo.setStyle("-fx-border-color: black");
 
         VBox mobArmorInfo = new VBox();
         mobArmorInfo.setAlignment(Pos.CENTER);
-        mobArmorInfo.setStyle("-fx-border-color: black");
 
         VBox mobToughnessInfo = new VBox();
         mobToughnessInfo.setAlignment(Pos.CENTER);
-        mobToughnessInfo.setStyle("-fx-border-color: black");
 
         HBox damageInfo = new HBox();
         damageInfo.setAlignment(Pos.CENTER);
-        damageInfo.setStyle("-fx-border-color: black");
 
         damageInfo.prefHeightProperty().bind(inventoryContent.heightProperty().multiply(0.2));
         damageInfo.maxHeightProperty().bind(inventoryContent.heightProperty().multiply(0.2));
+        damageInfo.spacingProperty().bind(damageInfo.widthProperty().multiply(0.05));
 
         HBox healthLeftInfo = new HBox();
         healthLeftInfo.setAlignment(Pos.CENTER);
-        healthLeftInfo.setStyle("-fx-border-color: black");
 
         healthLeftInfo.prefHeightProperty().bind(inventoryContent.heightProperty().multiply(0.2));
         healthLeftInfo.maxHeightProperty().bind(inventoryContent.heightProperty().multiply(0.2));
+        healthLeftInfo.spacingProperty().bind(healthLeftInfo.widthProperty().multiply(0.05));
 
         vbox.getChildren().addAll(mobInfo, damageInfo,healthLeftInfo);
         mobInfo.getChildren().addAll(mobHealthInfo, mobArmorInfo, mobToughnessInfo);
 
         double baseIconSize = 50;
-        var imgSize = mobInfo.heightProperty().multiply(0.5);
-        var labelSize = mobInfo.heightProperty().multiply(0.35);
+
+        var imgMobInfoSize = mobInfo.heightProperty().multiply(0.5);
+        var labelMobInfoSize = mobInfo.heightProperty().multiply(0.35);
         StringBinding fontSizeBinding = Bindings.createStringBinding(() -> {
             double fontSize = mobInfo.getHeight() * 0.15; // adjust the multiplier as needed
             return String.format("-fx-font-size: %.2fpx;", fontSize);
@@ -251,79 +265,75 @@ public class MainController implements Initializable {
         Image damageHeart = new Image(getClass().getResource("/res/damageHeart.png").toExternalForm());
 
         ImageView fullHeartView = new ImageView(fullHeart);
-        fullHeartView.setPreserveRatio(true);
-        fullHeartView.setFitWidth(baseIconSize);
-        fullHeartView.setFitHeight(baseIconSize);
-
-        fullHeartView.fitHeightProperty().bind(imgSize);
-        fullHeartView.fitWidthProperty().bind(imgSize);
+        configureSolView(fullHeartView, baseIconSize, imgMobInfoSize);
 
         Label hpLabel = new Label();
-        configureLabel(hpLabel, labelSize, fontSizeBinding);
+        configureSolLabel(hpLabel, labelMobInfoSize, fontSizeBinding);
+        this.hpLabel = hpLabel;
 
         mobHealthInfo.getChildren().addAll(fullHeartView, hpLabel);
 
         ImageView armorPointsView = new ImageView(armor);
-        armorPointsView.setPreserveRatio(true);
-        armorPointsView.setFitWidth(baseIconSize);
-        armorPointsView.setFitHeight(baseIconSize);
-
-        armorPointsView.fitHeightProperty().bind(imgSize);
-        armorPointsView.fitWidthProperty().bind(imgSize);
+        configureSolView(armorPointsView, baseIconSize, imgMobInfoSize);
 
         Label armorLabel = new Label();
-        configureLabel(armorLabel, labelSize, fontSizeBinding);
+        configureSolLabel(armorLabel, labelMobInfoSize, fontSizeBinding);
+        this.armorLabel = armorLabel;
 
         mobArmorInfo.getChildren().addAll(armorPointsView, armorLabel);
 
         ImageView toughnessView = new ImageView(toughnessArmor);
-        toughnessView.setPreserveRatio(true);
-        toughnessView.setFitWidth(baseIconSize);
-        toughnessView.setFitHeight(baseIconSize);
-
-        toughnessView.fitHeightProperty().bind(imgSize);
-        toughnessView.fitWidthProperty().bind(imgSize);
+        configureSolView(toughnessView, baseIconSize, imgMobInfoSize);
 
         Label toughnessLabel = new Label();
-        configureLabel(toughnessLabel, labelSize, fontSizeBinding);
+        configureSolLabel(toughnessLabel, labelMobInfoSize, fontSizeBinding);
+        this.toughnessLabel = toughnessLabel;
 
         mobToughnessInfo.getChildren().addAll(toughnessView, toughnessLabel);
 
+        var imgResSize = healthLeftInfo.heightProperty().multiply(0.9);
+        StringBinding fontSizeBinding2 = Bindings.createStringBinding(() -> {
+            double fontSize = damageInfo.getHeight() * 0.25; // adjust the multiplier as needed
+            return String.format("-fx-font-size: %.2fpx;", fontSize);
+        }, damageInfo.heightProperty());
 
         ImageView damageView = new ImageView(damageSword);
-        damageView.setPreserveRatio(true);
-        damageView.setFitWidth(baseIconSize);
-        damageView.setFitHeight(baseIconSize);
+        configureSolView(damageView, baseIconSize, imgResSize);
 
         Label damageLabel = new Label();
-        damageLabel.setAlignment(Pos.CENTER);
-        damageLabel.setText("20");
-        damageLabel.setStyle("-fx-border-color: blue");
+        configureSolLabel(damageLabel, imgResSize, fontSizeBinding2);
+        this.damageLabel = damageLabel;
 
         damageInfo.getChildren().addAll(damageView, damageLabel);
 
         ImageView healthLeftView = new ImageView(damageHeart);
-        healthLeftView.setPreserveRatio(true);
-        healthLeftView.setFitWidth(baseIconSize);
-        healthLeftView.setFitHeight(baseIconSize);
+        configureSolView(healthLeftView, baseIconSize, imgResSize);
 
         Label healthLeftLabel = new Label();
-        healthLeftLabel.setAlignment(Pos.CENTER);
-        healthLeftLabel.setText("20");
-        healthLeftLabel.setStyle("-fx-border-color: blue");
+        configureSolLabel(healthLeftLabel, imgResSize, fontSizeBinding2);
+        this.healthLeftLabel = healthLeftLabel;
 
         healthLeftInfo.getChildren().addAll(healthLeftView, healthLeftLabel);
 
-        inventoryContent.getChildren().add(vbox);
+        resultPage = vbox;
     }
 
-    private void configureLabel(Label label, DoubleBinding sizeBinding, StringBinding fontSizeBinding) {
+    private void configureSolView(ImageView view, double baseSize, DoubleBinding viewSizeBinding) {
+        view.setPreserveRatio(true);
+        view.setFitWidth(baseSize);
+        view.setFitHeight(baseSize);
+
+        view.fitHeightProperty().bind(viewSizeBinding);
+        view.fitWidthProperty().bind(viewSizeBinding);
+    }
+
+    private void configureSolLabel(Label label, DoubleBinding sizeBinding, StringBinding fontSizeBinding) {
         label.setText("20");
         label.setAlignment(Pos.CENTER);
         label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         label.prefHeightProperty().bind(sizeBinding);
         label.prefWidthProperty().bind(sizeBinding);
-        label.styleProperty().bind(Bindings.concat("-fx-border-color: blue;", fontSizeBinding));
+        label.styleProperty().bind(Bindings.concat(fontSizeBinding));
     }
 
     private void centerVBox() {
@@ -415,7 +425,6 @@ public class MainController implements Initializable {
         List<Toggle> toggles = group.getToggles();
 
         for (int i = 0; i < toggles.size(); i++) {
-            final int toggleIndex = i;
             Toggle toggle = toggles.get(i);
 
             // Extra MouseEvent Listener: doppelt geklickt auf das gleiche Toggle
@@ -482,7 +491,6 @@ public class MainController implements Initializable {
         List<Toggle> toggles = group.getToggles();
 
         for (int i = 0; i < toggles.size(); i++) {
-            final int toggleIndex = i;
             Toggle toggle = toggles.get(i);
 
             if (toggle instanceof Node) {
@@ -654,6 +662,8 @@ public class MainController implements Initializable {
                     selector.setOpacity(0);
                 }
             });
+
+
         }
         return armorType;
     }
@@ -737,6 +747,7 @@ public class MainController implements Initializable {
         Image bootsBtnImg = new Image(getClass().getResource("/res/bootsButton.png").toExternalForm());
 
         Image armorSelectorImg = new Image(getClass().getResource("/res/armorSelector.png").toExternalForm());
+        Image hover = new Image(getClass().getResource("/res/hoverTile.png").toExternalForm());
 
         ArrayList<Image> imgList = new ArrayList<>();
         imgList.add(helmetBtnImg);
@@ -771,6 +782,16 @@ public class MainController implements Initializable {
             selector.fitWidthProperty().bind(tileSize);
             selector.fitHeightProperty().bind(tileSize);
 
+            ImageView hoverTile = new ImageView();
+
+            hoverTile.setImage(hover);
+            hoverTile.setPreserveRatio(true);
+            hoverTile.setSmooth(false);
+            hoverTile.setOpacity(0);
+
+            hoverTile.fitWidthProperty().bind(tileSize);
+            hoverTile.fitHeightProperty().bind(tileSize);
+
             RadioButton button = new RadioButton();
             button.setToggleGroup(group);
             button.setOpacity(0);
@@ -792,32 +813,41 @@ public class MainController implements Initializable {
                 }
             });
 
-            Group tile = new Group(image, button, selector);
+            button.hoverProperty().addListener((obs, wasHovered, isHovered) -> {
+                if(isHovered) {
+                    System.out.println("sao");
+                    hoverTile.setOpacity(1);
+                } else {
+                    hoverTile.setOpacity(0);
+                }
+            });
+
+            Group tile = new Group(image, button, hoverTile, selector);
             innerContainer.getChildren().add(tile);
         }
     }
 
     private void generateUserButtons() {
-        configureButtonWithImage(weaponButton, "/res/weaponButton.png", e -> {
+        configureButtonWithImage(weaponButton, "/res/weaponButton.png", "/res/weaponButtonHover.png", e -> {
             // Your weaponButton logic here
             System.out.println("Weapon button clicked");
             inventoryContent.getChildren().clear();
             inventoryContent.getChildren().addAll(weaponInv);
         });
 
-        configureButtonWithImage(entityButton, "/res/entityButton.png", e -> {
+        configureButtonWithImage(entityButton, "/res/entityButton.png", "/res/entityButtonHover.png", e -> {
             System.out.println("Entity button clicked");
             entityMobSelection.setVisible(!entityMobSelection.isVisible());
         });
 
-        configureButtonWithImage(armorButton, "/res/armorButton.png", e -> {
+        configureButtonWithImage(armorButton, "/res/armorButton.png", "/res/armorButtonHover.png", e -> {
             // Your armorButton logic here
             System.out.println("Armor button clicked");
             inventoryContent.getChildren().clear();
             inventoryContent.getChildren().addAll(armorSelector, armorInv);
         });
 
-        configureButtonWithImage(optionsButton, "/res/optionsButton.png", e -> {
+        configureButtonWithImage(optionsButton, "/res/optionsButton.png", "/res/optionsButtonHover.png", e -> {
             // Your optionsButton logic here
             System.out.println("Options button clicked");
             if (ka) {
@@ -839,14 +869,23 @@ public class MainController implements Initializable {
             }
         });
 
-        configureButtonWithImage(calculateButton, "/res/calculateButton.png", e -> {
+        configureButtonWithImage(calculateButton, "/res/calculateButton.png", "/res/calculateButtonHover.png", e -> {
             System.out.println("Calculate button clicked");
-            System.out.println(connector.calculateDamage());
+
+            inventoryContent.getChildren().clear();
+            hpLabel.setText(connector.getHp());
+            armorLabel.setText(connector.getArmorPoints());
+            toughnessLabel.setText(connector.getArmorToughness());
+            damageLabel.setText(connector.calculateDamageAsString());
+            healthLeftLabel.setText(connector.calculateHealthLeft());
+            inventoryContent.getChildren().add(resultPage);
         });
     }
 
-    private void configureButtonWithImage(Button button, String imagePath, EventHandler<ActionEvent> onClick) {
+    private void configureButtonWithImage(Button button, String imagePath, String imageHoverPath, EventHandler<ActionEvent> onClick) {
         Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+        Image hover = new Image(getClass().getResource(imageHoverPath).toExternalForm());
+
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(0);
         imageView.setFitHeight(0);
@@ -862,6 +901,14 @@ public class MainController implements Initializable {
         // Bind image size to button size
         imageView.fitWidthProperty().bind(button.prefWidthProperty());
         imageView.fitHeightProperty().bind(button.prefHeightProperty());
+
+        button.hoverProperty().addListener((observableValue, aBoolean, t1) -> {
+            if (t1) {
+                imageView.setImage(hover);
+            } else {
+                imageView.setImage(image);
+            }
+        });
 
         // Set the button's action
         button.setOnAction(onClick);

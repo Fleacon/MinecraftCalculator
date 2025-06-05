@@ -27,7 +27,7 @@
                 <ColumnConstraints percentWidth="38"/>
             </columnConstraints>
 
-            <VBox fx:id="buttonsvbox" GridPane.columnIndex="0" alignment="CENTER" style="-fx-border-color : white;">
+            <VBox fx:id="buttonsvbox" GridPane.columnIndex="0" alignment="CENTER">
 
                 <StackPane>
 
@@ -50,10 +50,10 @@
                 </StackPane>
             </VBox>
 
-            <StackPane fx:id="mobSelector" GridPane.columnIndex="1" style="-fx-border-color: white">
+            <StackPane fx:id="mobSelector" GridPane.columnIndex="1" >
                 <WrappedImageView fx:id="mobWindow" preserveRatio="true"/>
                 <ImageView fx:id="mobWindowMob" preserveRatio="true"/>
-                <HBox fx:id="entityMobSelection" style="-fx-border-color: blue" alignment="CENTER">
+                <HBox fx:id="entityMobSelection" alignment="CENTER">
                     <Button fx:id="zombieButton" ></Button>
                     <Button fx:id="skeletonButton" ></Button>
                 </HBox>
@@ -61,16 +61,15 @@
 
                 </Label>
             </StackPane>
-
-            <StackPane GridPane.columnIndex="2" fx:id="armorBar" style="-fx-border-color: white" alignment="CENTER">
+            <StackPane GridPane.columnIndex="2" fx:id="armorBar" alignment="CENTER">
                 <WrappedImageView fx:id="armorBarBg" StackPane.alignment="CENTER"/>
-                <VBox fx:id="armorBarContent" alignment="CENTER" style="-fx-border-color: black"/>
+                <VBox fx:id="armorBarContent" alignment="CENTER" />
             </StackPane>
 
             <StackPane GridPane.columnIndex="3" fx:id="inventory">
                 <WrappedImageView fx:id="inventoryBg" StackPane.alignment="CENTER"/>
                 <Pane fx:id="inventoryContainer" StackPane.alignment="CENTER">
-                    <VBox fx:id="inventoryContent" VBox.vgrow="ALWAYS" StackPane.alignment="CENTER" alignment="CENTER" fillWidth="false" style="-fx-border-color: orange">
+                    <VBox fx:id="inventoryContent" VBox.vgrow="ALWAYS" StackPane.alignment="CENTER" alignment="CENTER" fillWidth="false">
                         <padding>
                             <Insets topRightBottomLeft="15"/>
                         </padding>

@@ -52,3 +52,11 @@
     -fx-border-color: rgb(250, 250, 250);
     -fx-background-color: black;
 }
+
+.group {
+    -fx-background-color: transparent;
+}
+
+.group:hover {
+    -fx-background-color: rgba(250, 250, 250, 0.5);
+}
